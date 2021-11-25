@@ -1,6 +1,8 @@
 package com.oguzhancetin.goodpostureapp
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.media.Image
@@ -33,7 +35,19 @@ import java.io.ByteArrayOutputStream
 import android.graphics.BitmapFactory
 
 import android.graphics.Bitmap
+import android.provider.MediaStore
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import java.io.ByteArrayInputStream
+import android.provider.DocumentsContract
+
+import android.content.ContentUris
+import android.content.Context
+import android.database.Cursor
+
+import android.os.Environment
+
+import android.os.Build
 
 
 class MainActivity : AppCompatActivity() {
@@ -41,7 +55,30 @@ class MainActivity : AppCompatActivity() {
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var viewFinder: PreviewView
-    private lateinit var imageView : ImageView
+    private lateinit var imageView: ImageView
+
+    val poseDetecionOpt = AccuratePoseDetectorOptions.Builder()
+        .setDetectorMode(AccuratePoseDetectorOptions.SINGLE_IMAGE_MODE)
+        .build()
+    val poseDetector = PoseDetection.getClient(poseDetecionOpt)
+
+   /* private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                it.data?.data.let { uri ->
+
+
+                    //setImageView(path)
+
+                }
+
+            }
+
+
+        }*/
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +87,10 @@ class MainActivity : AppCompatActivity() {
         viewFinder = findViewById<PreviewView>(R.id.viewFinder)
         imageView = findViewById<ImageView>(R.id.imageView)
 
+
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
+
 
 
 
@@ -64,9 +103,25 @@ class MainActivity : AppCompatActivity() {
             )
         }
         camera_capture_button.setOnClickListener { takePhoto() }
+        btn_clear.setOnClickListener { clearScreen() }
+
+        //button_from_device.setOnClickListener { openSelectFile() }
 
 
     }
+
+    private fun clearScreen() {
+        viewFinder.visibility = View.VISIBLE
+        imageView.visibility = View.INVISIBLE
+    }
+
+    /* private fun openSelectFile() {
+         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+         startForResult.launch(intent)
+
+
+     }*/
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -91,7 +146,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun getOutputDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdir() }
+            File(it, resources.getString(R.string.app_name)).apply {
+                mkdir()
+            }
         }
 
         return if (mediaDir != null && mediaDir.exists())
@@ -121,6 +178,8 @@ class MainActivity : AppCompatActivity() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
+
+
                     setImageView(savedUri)
                     Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
                     Log.d(TAG, msg)
@@ -133,41 +192,36 @@ class MainActivity : AppCompatActivity() {
             }
         )
     }
-    private fun setImageView(uri:Uri?){
-        if(viewFinder.visibility == View.VISIBLE){
+
+    private fun setImageView(uri: Uri?) {
+        if (viewFinder.visibility == View.VISIBLE) {
             viewFinder.visibility = View.GONE
             imageView.visibility = View.VISIBLE
 
 
+            //empty bitmap with given size
             val drawBitmap = Bitmap.createBitmap(
                 imageView.width,
                 imageView.height,
                 Bitmap.Config.ARGB_8888
             )
-            var bitmap = getResizedBitmap(BitmapFactory.decodeFile(uri?.encodedPath),imageView.width,imageView.height)
+            // taken phote from camera
+            var bitmap = getResizedBitmap(
+                BitmapFactory.decodeFile(uri?.encodedPath),
+                imageView.width,
+                imageView.height
+            )
 
             Glide.with(this).load(drawBitmap).into(imageView)
             var paint = Paint().apply { this.color = Color.RED }
             var canvas = Canvas(drawBitmap)
-            canvas.drawBitmap(bitmap,0f, 0f, null)
-
+            canvas.drawBitmap(bitmap, 0f, 0f, null)
 
             imageView.invalidate()
-
-
-
-            val poseDetecionOpt = AccuratePoseDetectorOptions.Builder()
-                .setDetectorMode(AccuratePoseDetectorOptions.SINGLE_IMAGE_MODE)
-                .build()
-            val poseDetector = PoseDetection.getClient(poseDetecionOpt)
-            val result: Task<Pose> = poseDetector.process(InputImage.fromBitmap(bitmap, 0))
-                .addOnSuccessListener { pose ->
-                    processPose(pose,canvas,paint,imageView)
-                }
-
-                .addOnFailureListener { result ->
-                    Log.e("ml", "error")
-                }
+            //pose detection process change bitmap reference so image change
+            PoseDetectionProcess(poseDetector,canvas, paint,bitmap, imageView).processPose{
+                    Toast.makeText(this,it,Toast.LENGTH_SHORT).show()
+            }
 
 
 
@@ -175,6 +229,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
     fun getResizedBitmap(bm: Bitmap, newWidth: Int, newHeight: Int): Bitmap {
         val width = bm.width
         val height = bm.height
@@ -192,13 +247,14 @@ class MainActivity : AppCompatActivity() {
         bm.recycle()
         return resizedBitmap
     }
+
     private fun Bitmap.compress(): Bitmap? {
 
         val out = ByteArrayOutputStream()
         compress(Bitmap.CompressFormat.JPEG, 100, out)
         val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
 
-        Log.e("Original   dimensions", width.toString() + " " +height)
+        Log.e("Original   dimensions", width.toString() + " " + height)
         Log.e("Compressed dimensions", decoded.width.toString() + " " + decoded.height)
         return decoded
     }
@@ -224,11 +280,8 @@ class MainActivity : AppCompatActivity() {
             }
 
 
-
-
-
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        cameraProviderFuture.addListener( Runnable{
+        cameraProviderFuture.addListener(Runnable {
             //preview
             val preview = Preview.Builder()
                 .build()
@@ -244,7 +297,7 @@ class MainActivity : AppCompatActivity() {
 
             try {
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview,imageCapture)
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
 
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
@@ -263,57 +316,12 @@ class MainActivity : AppCompatActivity() {
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS =
-            arrayOf(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
     }
-
-
-    private fun processPose(pose: Pose, canvas: Canvas,paint: Paint,view:View) {
-        try {
-
-            var leftSholder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER)
-            var rightSholder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER)
-            var rightEar = pose.getPoseLandmark(PoseLandmark.RIGHT_EAR)
-            var leftEar = pose.getPoseLandmark(PoseLandmark.LEFT_EAR)
-
-
-            val leftSholderLandMarks: Pair<Float,Float> = Pair(leftSholder.position.x,leftSholder.position.y)
-            val rightSholderLandMarks: Pair<Float,Float> = Pair(rightSholder.position.x,rightSholder.position.y)
-            val leftEarLandMarks: Pair<Float,Float> = Pair(leftEar.position.x,leftEar.position.y)
-            val rightEarLandMarks: Pair<Float,Float> = Pair(rightEar.position.x,rightEar.position.y)
-
-
-
-
-
-            DisplayAll(leftSholderLandMarks,rightSholderLandMarks,leftEarLandMarks,rightEarLandMarks,canvas,paint,view)
-        } catch (e: Exception) {
-            Toast.makeText(this@MainActivity, "Pose Landmarks failed", Toast.LENGTH_SHORT).show()
-        }
-    }
-    private fun   DisplayAll(
-        leftSholderLandMarks:Pair<Float,Float>,
-        rightSholderLandMarks:Pair<Float,Float>,
-        leftEarLandMarks:Pair<Float,Float>,
-        rightEarLandMarks:Pair<Float,Float>,
-        canvas:Canvas,
-        paint:Paint,
-        view:View) {
-
-
-
-        canvas.drawLine(
-            leftSholderLandMarks.first,leftSholderLandMarks.second,
-            leftEarLandMarks.first,leftEarLandMarks.second,
-            paint
-        )
-
-
-
-        view.invalidate()
-
-
-    }
-
 
 
 }
@@ -340,8 +348,8 @@ private class MyImageAnalyzer(private val imageListener: (Image) -> Unit) :
                 var paint = Paint().apply { this.color = Color.RED }
 
                 var canvas = Canvas(drawBitmap)
-                canvas.drawBitmap(bitmap,0f, 0f, null)
-                canvas.drawRect(Rect(100,100,200,200),paint)
+                canvas.drawBitmap(bitmap, 0f, 0f, null)
+                canvas.drawRect(Rect(100, 100, 200, 200), paint)
             }
 
 
@@ -354,6 +362,7 @@ private class MyImageAnalyzer(private val imageListener: (Image) -> Unit) :
         }
 
     }
+
     fun Image?.toBitmap(): Bitmap? {
         this?.apply {
             val buffer = planes[0].buffer
@@ -365,5 +374,6 @@ private class MyImageAnalyzer(private val imageListener: (Image) -> Unit) :
         return null
 
     }
+
 
 }
