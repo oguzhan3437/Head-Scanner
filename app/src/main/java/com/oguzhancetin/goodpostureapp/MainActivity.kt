@@ -142,7 +142,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun takePhoto() {
-
         val imageCapture = imageCapture ?: return
         val photoFile = File(
             outputDirectory,
@@ -157,17 +156,13 @@ class MainActivity : AppCompatActivity() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
-
-
                     setImageView(savedUri)
                     Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
                     Log.d(TAG, msg)
                 }
-
                 override fun onError(exception: ImageCaptureException) {
                     Log.e(TAG, "Photo capture failed: ${exception.message}", exception)
                 }
-
             }
         )
     }
@@ -176,7 +171,6 @@ class MainActivity : AppCompatActivity() {
         if (_binding.viewFinder.visibility == View.VISIBLE) {
             _binding.viewFinder.visibility = View.GONE
             _binding.imageView.visibility = View.VISIBLE
-
 
             //empty bitmap with given size
             val drawBitmap = Bitmap.createBitmap(
@@ -213,8 +207,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-
 
 
     private fun startCamera() {

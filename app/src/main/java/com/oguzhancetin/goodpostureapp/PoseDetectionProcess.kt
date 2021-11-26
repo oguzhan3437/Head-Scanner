@@ -24,6 +24,7 @@ class PoseDetectionProcess(
 ) {
 
 
+
     fun processPose(onFailedListener: (messagge: String?) -> Unit) {
 
         poseDetector.process(InputImage.fromBitmap(bitmap, 0))
@@ -66,7 +67,7 @@ class PoseDetectionProcess(
                 paint
             )
         }catch (e:Exception){
-
+            Log.e("exception Pose",e.stackTraceToString())
         }
 
 
