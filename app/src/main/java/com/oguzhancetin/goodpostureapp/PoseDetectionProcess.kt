@@ -1,18 +1,15 @@
 package com.oguzhancetin.goodpostureapp
 
-import android.content.Context
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.net.Uri
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.pose.Pose
 import com.google.mlkit.vision.pose.PoseDetector
 import com.google.mlkit.vision.pose.PoseLandmark
+import kotlin.math.atan2
 
 class PoseDetectionProcess(
     val poseDetector: PoseDetector,
@@ -60,16 +57,50 @@ class PoseDetectionProcess(
 
 
 
+            val pairEar = Pair(leftEarLandMarks.first,leftEarLandMarks.second)
+            val pairShoulder = Pair(leftSholderLandMarks.first,leftSholderLandMarks.second)
+            val pairIntersection = Pair(leftSholderLandMarks.first,leftEarLandMarks.second)
+
+            val angle = getAngle(pairEar,pairShoulder,pairIntersection)
+
 
             canvas.drawLine(
                 leftSholderLandMarks.first, leftSholderLandMarks.second,
                 leftEarLandMarks.first, leftEarLandMarks.second,
                 paint
             )
+            canvas.drawPoint(
+                leftSholderLandMarks.first,leftEarLandMarks.second,
+                paint
+            )
+            canvas.drawLine(
+                leftSholderLandMarks.first, leftEarLandMarks.second,
+                leftSholderLandMarks.first, leftSholderLandMarks.second,
+                paint
+            )
+            canvas.drawText("angle : "+angle,200f,50f,paint)
+
+
+
         }catch (e:Exception){
             Log.e("exception Pose",e.stackTraceToString())
         }
 
 
     }
+    private fun getAngle(firstPoint: Pair<Float, Float>, midPoint: Pair<Float, Float>, lastPoint: Pair<Float, Float>): Double {
+        var result = Math.toDegrees(
+            (atan2(lastPoint.second - midPoint.second,
+                lastPoint.first - midPoint.second)
+                    - atan2(firstPoint.second - midPoint.second,
+                firstPoint.first- midPoint.first)).toDouble()
+        )
+        result = Math.abs(result) // Angle should never be negative
+        if (result > 180) {
+            result = 360.0 - result // Always get the acute representation of the angle
+        }
+        return result
+    }
+
+
 }

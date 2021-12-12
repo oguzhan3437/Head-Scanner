@@ -44,20 +44,7 @@ class MainActivity : AppCompatActivity() {
         .build()
     val poseDetector = PoseDetection.getClient(poseDetecionOpt)
 
-    /* private val startForResult =
-         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-             if (it.resultCode == Activity.RESULT_OK) {
-                 it.data?.data.let { uri ->
 
-
-                     //setImageView(path)
-
-                 }
-
-             }
-
-
-         }*/
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(_binding.root)
 
 
-        outputDirectory = getOutputDirectory()
+        outputDirectory = getOutputDirectory(application)
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         _binding.cameraCaptureButton.setOnClickListener { takePhoto() }
@@ -122,17 +109,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun getOutputDirectory(): File {
-        val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply {
-                mkdir()
-            }
-        }
 
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else filesDir
-
-    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -154,7 +131,8 @@ class MainActivity : AppCompatActivity() {
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
+                    //Uri.fromFile(photoFile)
+                    val savedUri = Uri.fromFile(photoFile) //Uri.parse("file:///storage/emulated/0/Android/media/com.oguzhancetin.goodpostureapp/GoodPostureApp/2021-11-26-12-01-36-293.jpg") //
                     val msg = "Photo capture succeeded: $savedUri"
                     setImageView(savedUri)
                     Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
