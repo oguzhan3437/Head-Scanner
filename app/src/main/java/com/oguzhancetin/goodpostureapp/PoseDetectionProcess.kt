@@ -16,9 +16,9 @@ class PoseDetectionProcess(
     val canvas: Canvas,
     val paint: Paint,
     val bitmap: Bitmap,
-    val view: View,
+    private val view: View,
 
-) {
+    ) {
 
 
 

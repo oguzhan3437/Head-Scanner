@@ -18,6 +18,9 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.mlkit.vision.pose.PoseDetection
 import com.google.mlkit.vision.pose.accurate.AccuratePoseDetectorOptions
@@ -30,11 +33,12 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+
 
 
 class MainFragment : Fragment() {
+    val args:MainFragmentArgs by navArgs()
+
     private var binding: FragmentMainBinding? = null
     private val _binding get() = binding!!
     private var imageCapture: ImageCapture? = null
@@ -75,15 +79,28 @@ class MainFragment : Fragment() {
 
         _binding.cameraCaptureButton.setOnClickListener { takePhoto() }
         _binding.btnClear.setOnClickListener { clearScreen() }
-        //button_from_device.setOnClickListener { openSelectFile() }
+        _binding.buttonFromDevice.setOnClickListener {
+            MainFragmentDirections.actionMainFragmentToGalleryFragment2().also {direction->
+                findNavController().navigate(direction)
+            }
+        }
 
-        checkPermisionsOk()
-        // Inflate the layout for this fragment
+        checkPermissionsOk()
+
+
         return _binding.root;
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        args.uri?.let{
+            val uri = Uri.parse(it)
+            setImageView(uri)
+        }
+    }
 
-    private fun checkPermisionsOk() {
+
+    private fun checkPermissionsOk() {
         if (allPermissionsGranted()) {
             startCamera()
         } else {
@@ -98,12 +115,7 @@ class MainFragment : Fragment() {
         _binding.imageView.visibility = View.INVISIBLE
     }
 
-    /* private fun openSelectFile() {
-         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-         startForResult.launch(intent)
 
-
-     }*/
 
 
     override fun onRequestPermissionsResult(
@@ -127,11 +139,7 @@ class MainFragment : Fragment() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraExecutor.shutdown()
-        binding = null
-    }
+
 
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
@@ -165,17 +173,20 @@ class MainFragment : Fragment() {
             _binding.viewFinder.visibility = View.GONE
             _binding.imageView.visibility = View.VISIBLE
 
+             _binding.imageView.measure(View.MeasureSpec.UNSPECIFIED,View.MeasureSpec.UNSPECIFIED)
+            val width = resources.displayMetrics.widthPixels //1080 _binding.imageView.measuredWidth
+            val height = _binding.imageView.measuredHeight //1397
             //empty bitmap with given size
             val drawBitmap = Bitmap.createBitmap(
-                _binding.imageView.width,
-                _binding.imageView.height,
+                width,
+                height,
                 Bitmap.Config.ARGB_8888
             )
-            // taken phote from camera
+            //
             var bitmap = getResizedBitmap(
                 BitmapFactory.decodeFile(uri?.encodedPath),
-                _binding.imageView.width,
-                _binding.imageView.height
+                width,
+                height
             )
 
             Glide.with(this).load(drawBitmap).into(_binding.imageView)
@@ -233,6 +244,12 @@ class MainFragment : Fragment() {
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cameraExecutor.shutdown()
+        binding = null
     }
 
 
