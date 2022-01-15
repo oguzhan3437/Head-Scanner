@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.oguzhancetin.goodpostureapp.main.MainFragment"
+        android:name="com.oguzhancetin.goodpostureapp.fragment.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main"
         >
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/galleryFragment"
-        android:name="com.oguzhancetin.goodpostureapp.gallery.GalleryFragment"
+        android:name="com.oguzhancetin.goodpostureapp.fragment.GalleryFragment"
         android:label="fragment_gallery"
         tools:layout="@layout/fragment_gallery" >
         <action

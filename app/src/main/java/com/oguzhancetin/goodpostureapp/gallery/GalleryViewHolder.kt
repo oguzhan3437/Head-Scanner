@@ -1,12 +1,8 @@
 package com.oguzhancetin.goodpostureapp.gallery
 
-import android.graphics.BitmapFactory
-import android.media.Image
 import android.net.Uri
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.oguzhancetin.goodpostureapp.R
 import com.oguzhancetin.goodpostureapp.databinding.CardGalleryImageBinding
 
 class GalleryViewHolder(
