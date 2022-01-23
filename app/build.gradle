@@ -70,11 +70,19 @@ dependencies {
     def nav_version = "2.3.5"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-
-
+    
     //hilt
     implementation "com.google.dagger:hilt-android:2.38.1"
     kapt "com.google.dagger:hilt-compiler:2.38.1"
+
+    implementation 'com.tbuonomo:dotsindicator:4.2'
+
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    //Data Store
+    implementation "androidx.datastore:datastore:1.0.0"
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
 
 }
