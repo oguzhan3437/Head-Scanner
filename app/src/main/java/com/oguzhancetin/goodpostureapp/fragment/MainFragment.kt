@@ -176,6 +176,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             canvas.drawBitmap(bitmap, 0f, 0f, null)
 
             binding.imageView.invalidate()
+
+            //draw neck and soulder line
             //pose detection process change bitmap reference so image change
             PoseDetectionProcess(
                 poseDetector,

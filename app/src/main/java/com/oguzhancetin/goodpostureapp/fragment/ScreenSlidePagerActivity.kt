@@ -17,11 +17,6 @@ private const val NUM_PAGES = 3
 @AndroidEntryPoint
 class ScreenSlidePagerActivity : AppCompatActivity() {
 
-  /*  private val viewList = mutableListOf<View>(
-        layoutInflater.inflate(R.layout.slide_one, null),
-        layoutInflater.inflate(R.layout.slide_one, null),
-        layoutInflater.inflate(R.layout.slide_one, null),
-    )*/
 
     private var _binding: ActivityFragmentSlidePagerBinding? = null
     private val binding

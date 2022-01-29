@@ -81,8 +81,9 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     //Data Store
-    implementation "androidx.datastore:datastore:1.0.0"
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
 
 }

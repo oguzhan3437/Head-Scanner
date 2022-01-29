@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.oguzhancetin.goodpostureapp.databinding.FragmentGalleryBinding
 import com.oguzhancetin.goodpostureapp.databinding.FragmentGalleryBinding.*
-import com.oguzhancetin.goodpostureapp.gallery.GalleryRcAdapter
+import com.oguzhancetin.goodpostureapp.adapter.GalleryRcAdapter
 import com.oguzhancetin.goodpostureapp.getOutputDirectory
 
 class GalleryFragment : BaseFragment<FragmentGalleryBinding>() {

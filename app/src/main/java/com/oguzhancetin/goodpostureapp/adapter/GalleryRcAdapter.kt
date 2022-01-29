@@ -1,4 +1,4 @@
-package com.oguzhancetin.goodpostureapp.gallery
+package com.oguzhancetin.goodpostureapp.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
