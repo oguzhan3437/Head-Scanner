@@ -1,4 +1,4 @@
-package com.oguzhancetin.goodpostureapp.slideIntro
+package com.oguzhancetin.goodpostureapp.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzhancetin.goodpostureapp.databinding.FragmentIntroBinding

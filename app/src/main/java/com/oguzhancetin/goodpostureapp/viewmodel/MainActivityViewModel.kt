@@ -3,7 +3,7 @@ package com.oguzhancetin.goodpostureapp.viewmodel
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
-import com.oguzhancetin.goodpostureapp.data.preference.PreferenceRepository
+import com.oguzhancetin.goodpostureapp.repository.PreferenceRepository
 import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

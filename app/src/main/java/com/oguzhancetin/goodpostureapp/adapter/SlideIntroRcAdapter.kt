@@ -1,4 +1,4 @@
-package com.oguzhancetin.goodpostureapp.slideIntro
+package com.oguzhancetin.goodpostureapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

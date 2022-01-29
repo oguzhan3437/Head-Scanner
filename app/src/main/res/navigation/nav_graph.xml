@@ -20,6 +20,9 @@
             app:nullable="true"
             android:defaultValue="@null"
             />
+        <action
+            android:id="@+id/action_mainFragment_to_exercisesFragment"
+            app:destination="@id/exercisesFragment" />
     </fragment>
     <fragment
         android:id="@+id/galleryFragment"
@@ -30,5 +33,14 @@
             android:id="@+id/action_galleryFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/exercisesFragment"
+        android:name="com.oguzhancetin.goodpostureapp.ExercisesFragment"
+        android:label="fragment_exercises"
+        tools:layout="@layout/fragment_exercises" >
+        <action
+            android:id="@+id/action_exercisesFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 </navigation>
