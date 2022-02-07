@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/exercisesFragment"
-        android:name="com.oguzhancetin.goodpostureapp.ExercisesFragment"
+        android:name="com.oguzhancetin.goodpostureapp.fragment.ExercisesFragment"
         android:label="fragment_exercises"
         tools:layout="@layout/fragment_exercises" >
         <action

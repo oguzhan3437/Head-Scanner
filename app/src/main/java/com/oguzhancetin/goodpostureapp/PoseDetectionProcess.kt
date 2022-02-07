@@ -9,6 +9,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.pose.Pose
 import com.google.mlkit.vision.pose.PoseDetector
 import com.google.mlkit.vision.pose.PoseLandmark
+import kotlin.math.abs
 import kotlin.math.atan2
 
 class PoseDetectionProcess(
@@ -47,7 +48,7 @@ class PoseDetectionProcess(
             val leftEar = pose.getPoseLandmark(PoseLandmark.LEFT_EAR)
 
 
-            val leftSholderLandMarks: Pair<Float, Float> =
+            val leftShoulderLandMarks: Pair<Float, Float> =
                 Pair(leftSholder.position.x, leftSholder.position.y)
             val rightSholderLandMarks: Pair<Float, Float> =
                 Pair(rightSholder.position.x, rightSholder.position.y)
@@ -58,24 +59,24 @@ class PoseDetectionProcess(
 
 
             val pairEar = Pair(leftEarLandMarks.first,leftEarLandMarks.second)
-            val pairShoulder = Pair(leftSholderLandMarks.first,leftSholderLandMarks.second)
-            val pairIntersection = Pair(leftSholderLandMarks.first,leftEarLandMarks.second)
+            val pairShoulder = Pair(leftShoulderLandMarks.first,leftShoulderLandMarks.second)
+            val pairIntersection = Pair(leftShoulderLandMarks.first,leftEarLandMarks.second)
 
             val angle = getAngle(pairEar,pairShoulder,pairIntersection)
 
 
             canvas.drawLine(
-                leftSholderLandMarks.first, leftSholderLandMarks.second,
+                leftShoulderLandMarks.first, leftShoulderLandMarks.second,
                 leftEarLandMarks.first, leftEarLandMarks.second,
                 paint
             )
             canvas.drawPoint(
-                leftSholderLandMarks.first,leftEarLandMarks.second,
+                leftShoulderLandMarks.first,leftEarLandMarks.second,
                 paint
             )
             canvas.drawLine(
-                leftSholderLandMarks.first, leftEarLandMarks.second,
-                leftSholderLandMarks.first, leftSholderLandMarks.second,
+                leftShoulderLandMarks.first, leftEarLandMarks.second,
+                leftShoulderLandMarks.first, leftShoulderLandMarks.second,
                 paint
             )
             canvas.drawText("angle : "+angle,200f,50f,paint)
@@ -95,7 +96,7 @@ class PoseDetectionProcess(
                     - atan2(firstPoint.second - midPoint.second,
                 firstPoint.first- midPoint.first)).toDouble()
         )
-        result = Math.abs(result) // Angle should never be negative
+        result = abs(result) // Angle should never be negative
         if (result > 180) {
             result = 360.0 - result // Always get the acute representation of the angle
         }
