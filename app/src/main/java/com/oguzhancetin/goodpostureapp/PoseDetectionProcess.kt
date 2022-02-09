@@ -28,6 +28,8 @@ class PoseDetectionProcess(
             .addOnSuccessListener { pose ->
                 DisplayAll(pose)
                 view.invalidate()
+
+                Log.e("ml","başarılı")
             }
 
             .addOnFailureListener { result ->

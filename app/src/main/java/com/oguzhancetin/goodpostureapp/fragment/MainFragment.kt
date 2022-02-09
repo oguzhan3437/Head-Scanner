@@ -172,7 +172,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 height,
                 Bitmap.Config.ARGB_8888
             )
-
+            //
             var bitmap = getResizedBitmap(
                 BitmapFactory.decodeFile(uri?.encodedPath),
                 width,
@@ -185,8 +185,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             canvas.drawBitmap(bitmap, 0f, 0f, null)
 
             binding.imageView.invalidate()
-
-            //draw neck and soulder line
             //pose detection process change bitmap reference so image change
             PoseDetectionProcess(
                 poseDetector,
@@ -197,7 +195,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             ).processPose {
                 Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
             }
+
+
         }
+
+
     }
 
     private fun startCamera() {
