@@ -28,7 +28,7 @@ class PoseDetectionProcess(
         poseDetector.process(InputImage.fromBitmap(bitmap, 0))
             .addOnSuccessListener { pose ->
                 DisplayAll(pose)
-                view.invalidate()
+
             }
 
             .addOnFailureListener { result ->
@@ -81,7 +81,7 @@ class PoseDetectionProcess(
             )
             canvas.drawText("angle : "+angle,200f,50f,paint)
 
-
+            view.invalidate()
 
         }catch (e:Exception){
             Log.e("exception Pose",e.stackTraceToString())
