@@ -47,7 +47,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     private lateinit var cameraExecutor: ExecutorService
 
     @Inject
-    lateinit var poseDetector : PoseDetector
+    lateinit var poseDetector: PoseDetector
 
     companion object {
         private const val TAG = "CameraXBasic"
@@ -68,6 +68,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             val uri = Uri.parse(it)
             setImageView(uri)
         }
+        /**
+        val fragmentResultDialog = ShowResultDialogFragment()
+        fragmentResultDialog.show(childFragmentManager, fragmentResultDialog.tag)
+         **/
 
         outputDirectory = getOutputDirectory(requireActivity().application)
         cameraExecutor = Executors.newSingleThreadExecutor()
