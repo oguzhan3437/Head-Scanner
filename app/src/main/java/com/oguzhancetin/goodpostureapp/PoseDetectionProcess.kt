@@ -28,8 +28,8 @@ class PoseDetectionProcess(
 
 
 
-    fun processPose(): ProcessResult? {
-        var state: ProcessResult? = null
+    fun processPose(resultCallback:(ProcessResult?) -> Unit ) {
+
         poseDetector.process(InputImage.fromBitmap(bitmap, 0))
             .addOnSuccessListener { pose ->
                 try {
@@ -53,7 +53,7 @@ class PoseDetectionProcess(
                     val pairShoulder = Pair(leftSholderLandMarks.first,leftSholderLandMarks.second)
                     val pairIntersection = Pair(leftSholderLandMarks.first,leftEarLandMarks.second)
 
-                    val angle = getAngle(pairEar,pairShoulder,pairIntersection)
+
 
 
                     canvas.drawLine(
@@ -70,7 +70,8 @@ class PoseDetectionProcess(
                         leftSholderLandMarks.first, leftSholderLandMarks.second,
                         paint
                     )
-                    canvas.drawText("angle : "+angle,200f,50f,paint)
+                    val angle = getAngle(pairIntersection,pairShoulder,pairEar)
+                    canvas.drawText("angle : "+(90-angle),200f,50f,paint)
 
 
 
@@ -78,13 +79,14 @@ class PoseDetectionProcess(
                     Log.e("exception Pose",e.stackTraceToString())
                 }
 
-                state = ProcessResult.ProcessSucces("Başarılı")
+                resultCallback.invoke(ProcessResult.ProcessSucces("Başarılı"))
 
             }
             .addOnFailureListener { result ->
-                state = ProcessResult.ProcessError(result.message)
+                resultCallback.invoke(ProcessResult.ProcessError(result.message))
             }
-            return state
+
+
     }
 
     private fun DisplayAll(pose: Pose) {

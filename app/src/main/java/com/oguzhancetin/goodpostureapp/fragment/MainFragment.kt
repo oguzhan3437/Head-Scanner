@@ -187,22 +187,25 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 bitmap,
                 binding.imageView
             )
-            when (val processResult = poseProcess.processPose()) {
-                is ProcessResult.ProcessSucces -> {
+            poseProcess.processPose(){processResult ->
+                when (processResult) {
+                    is ProcessResult.ProcessSucces -> {
 
-                    binding.imageView.invalidate()
-                    Glide.with(this).load(drawBitmap).into(binding.imageView)
-                }
-                is ProcessResult.ProcessError -> {
-                    Toast.makeText(
-                        requireContext(),
-                        (processResult as? ProcessResult.ProcessError)?.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                        binding.imageView.invalidate()
+                        Glide.with(this).load(drawBitmap).into(binding.imageView)
+                    }
+                    is ProcessResult.ProcessError -> {
+                        Toast.makeText(
+                            requireContext(),
+                            (processResult as? ProcessResult.ProcessError)?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
-                else -> {}
+                    else -> {}
+                }
             }
+
 
 
         }
