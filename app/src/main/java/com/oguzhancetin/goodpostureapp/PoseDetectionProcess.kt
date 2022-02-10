@@ -11,6 +11,12 @@ import com.google.mlkit.vision.pose.PoseDetector
 import com.google.mlkit.vision.pose.PoseLandmark
 import kotlin.math.atan2
 
+sealed class ProcessResult(message:String?){
+class ProcessSucces(val message:String?): ProcessResult(message)
+class ProcessError(val message:String?): ProcessResult(message)
+}
+
+
 class PoseDetectionProcess(
     val poseDetector: PoseDetector,
     val canvas: Canvas,
@@ -22,71 +28,67 @@ class PoseDetectionProcess(
 
 
 
-    fun processPose(onFailedListener: (messagge: String?) -> Unit) {
-
+    fun processPose(): ProcessResult? {
+        var state: ProcessResult? = null
         poseDetector.process(InputImage.fromBitmap(bitmap, 0))
             .addOnSuccessListener { pose ->
-                DisplayAll(pose)
-                view.invalidate()
+                try {
+                    val leftSholder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER)
+                    val rightSholder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER)
+                    val rightEar = pose.getPoseLandmark(PoseLandmark.RIGHT_EAR)
+                    val leftEar = pose.getPoseLandmark(PoseLandmark.LEFT_EAR)
 
-                Log.e("ml","başarılı")
+
+                    val leftSholderLandMarks: Pair<Float, Float> =
+                        Pair(leftSholder.position.x, leftSholder.position.y)
+                    val rightSholderLandMarks: Pair<Float, Float> =
+                        Pair(rightSholder.position.x, rightSholder.position.y)
+                    val leftEarLandMarks: Pair<Float, Float> = Pair(leftEar.position.x, leftEar.position.y)
+                    val rightEarLandMarks: Pair<Float, Float> =
+                        Pair(rightEar.position.x, rightEar.position.y)
+
+
+
+                    val pairEar = Pair(leftEarLandMarks.first,leftEarLandMarks.second)
+                    val pairShoulder = Pair(leftSholderLandMarks.first,leftSholderLandMarks.second)
+                    val pairIntersection = Pair(leftSholderLandMarks.first,leftEarLandMarks.second)
+
+                    val angle = getAngle(pairEar,pairShoulder,pairIntersection)
+
+
+                    canvas.drawLine(
+                        leftSholderLandMarks.first, leftSholderLandMarks.second,
+                        leftEarLandMarks.first, leftEarLandMarks.second,
+                        paint
+                    )
+                    canvas.drawPoint(
+                        leftSholderLandMarks.first,leftEarLandMarks.second,
+                        paint
+                    )
+                    canvas.drawLine(
+                        leftSholderLandMarks.first, leftEarLandMarks.second,
+                        leftSholderLandMarks.first, leftSholderLandMarks.second,
+                        paint
+                    )
+                    canvas.drawText("angle : "+angle,200f,50f,paint)
+
+
+
+                }catch (e:Exception){
+                    Log.e("exception Pose",e.stackTraceToString())
+                }
+
+                state = ProcessResult.ProcessSucces("Başarılı")
+
             }
-
             .addOnFailureListener { result ->
-                Log.e("ml", "error")
-                onFailedListener.invoke(result.message)
+                state = ProcessResult.ProcessError(result.message)
             }
-
-
+            return state
     }
 
     private fun DisplayAll(pose: Pose) {
 
-        try {
-            val leftSholder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER)
-            val rightSholder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER)
-            val rightEar = pose.getPoseLandmark(PoseLandmark.RIGHT_EAR)
-            val leftEar = pose.getPoseLandmark(PoseLandmark.LEFT_EAR)
-
-
-            val leftSholderLandMarks: Pair<Float, Float> =
-                Pair(leftSholder.position.x, leftSholder.position.y)
-            val rightSholderLandMarks: Pair<Float, Float> =
-                Pair(rightSholder.position.x, rightSholder.position.y)
-            val leftEarLandMarks: Pair<Float, Float> = Pair(leftEar.position.x, leftEar.position.y)
-            val rightEarLandMarks: Pair<Float, Float> =
-                Pair(rightEar.position.x, rightEar.position.y)
-
-
-
-            val pairEar = Pair(leftEarLandMarks.first,leftEarLandMarks.second)
-            val pairShoulder = Pair(leftSholderLandMarks.first,leftSholderLandMarks.second)
-            val pairIntersection = Pair(leftSholderLandMarks.first,leftEarLandMarks.second)
-
-            val angle = getAngle(pairEar,pairShoulder,pairIntersection)
-
-
-            canvas.drawLine(
-                leftSholderLandMarks.first, leftSholderLandMarks.second,
-                leftEarLandMarks.first, leftEarLandMarks.second,
-                paint
-            )
-            canvas.drawPoint(
-                leftSholderLandMarks.first,leftEarLandMarks.second,
-                paint
-            )
-            canvas.drawLine(
-                leftSholderLandMarks.first, leftEarLandMarks.second,
-                leftSholderLandMarks.first, leftSholderLandMarks.second,
-                paint
-            )
-            canvas.drawText("angle : "+angle,200f,50f,paint)
-
-
-
-        }catch (e:Exception){
-            Log.e("exception Pose",e.stackTraceToString())
-        }
 
 
     }

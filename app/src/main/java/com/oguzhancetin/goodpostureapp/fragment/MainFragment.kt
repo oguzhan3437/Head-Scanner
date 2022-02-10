@@ -1,16 +1,12 @@
 package com.oguzhancetin.goodpostureapp.fragment
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -22,9 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.google.mlkit.vision.pose.PoseDetection
 import com.google.mlkit.vision.pose.PoseDetector
-import com.google.mlkit.vision.pose.accurate.AccuratePoseDetectorOptions
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
 import com.oguzhancetin.goodpostureapp.*
 import com.oguzhancetin.goodpostureapp.databinding.FragmentMainBinding
@@ -179,21 +173,35 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 height
             )
 
-            Glide.with(this).load(drawBitmap).into(binding.imageView)
+
             var paint = Paint().apply { this.color = Color.RED }
             var canvas = Canvas(drawBitmap)
             canvas.drawBitmap(bitmap, 0f, 0f, null)
 
             binding.imageView.invalidate()
             //pose detection process change bitmap reference so image change
-            PoseDetectionProcess(
+            val poseProcess = PoseDetectionProcess(
                 poseDetector,
                 canvas,
                 paint,
                 bitmap,
                 binding.imageView
-            ).processPose {
-                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            )
+            when (val processResult = poseProcess.processPose()) {
+                is ProcessResult.ProcessSucces -> {
+
+                    binding.imageView.invalidate()
+                    Glide.with(this).load(drawBitmap).into(binding.imageView)
+                }
+                is ProcessResult.ProcessError -> {
+                    Toast.makeText(
+                        requireContext(),
+                        (processResult as? ProcessResult.ProcessError)?.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                else -> {}
             }
 
 
@@ -228,8 +236,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(
+            requireContext(),
+            it
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
-    override fun getViewBinding(): FragmentMainBinding = FragmentMainBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentMainBinding =
+        FragmentMainBinding.inflate(layoutInflater)
 }
