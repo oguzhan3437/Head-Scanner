@@ -77,11 +77,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 findNavController().navigate(direction)
             }
         }
-        /*binding.buttonGotoExercises.setOnClickListener {
+        binding.buttonGotoExercises.setOnClickListener {
             MainFragmentDirections.actionMainFragmentToExercisesFragment().also {
                 findNavController().navigate(it)
             }
-        }*/
+        }
 
         checkPermissionsOk()
 
