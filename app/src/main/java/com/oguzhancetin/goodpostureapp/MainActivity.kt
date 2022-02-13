@@ -18,8 +18,9 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_GoodPostureApp)
         super.onCreate(savedInstanceState)
-        setActivity()
+        //setActivity()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(_binding.root)
     }
