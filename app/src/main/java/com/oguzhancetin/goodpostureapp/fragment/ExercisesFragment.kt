@@ -17,11 +17,11 @@ class ExercisesFragment : BaseFragment<FragmentExercisesBinding>() {
         super.onViewCreated(view, savedInstanceState)
         val exerciseAdapter = ExerciseRcAdapter(
             listOf<Exercise>(
-                Exercise(1,"e6", R.drawable.common_full_open_on_phone),
-                Exercise(1,"e5", R.drawable.common_full_open_on_phone),
-                Exercise(1,"e4", R.drawable.common_full_open_on_phone),
-                Exercise(1,"e3", R.drawable.common_full_open_on_phone),
-                Exercise(1,"e2", R.drawable.common_full_open_on_phone),
+                Exercise(1,"e6", R.drawable.e1),
+                Exercise(1,"e5", R.drawable.e2),
+                Exercise(1,"e4", R.drawable.e3),
+                Exercise(1,"e3", R.drawable.e4),
+                Exercise(1,"e2", R.drawable.e5),
             )
         )
         binding.exercisesRc.apply {

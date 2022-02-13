@@ -19,14 +19,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setActivity()
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(_binding.root)
     }
 
     private fun setActivity() {
         model.userIntoInfo.observe(this) {
-            when (it) {
+            //TODO: change when condition to it
+            when (false) {
                 false -> {
                     val intent = Intent(this, ScreenSlidePagerActivity::class.java)
                     startActivity(intent)

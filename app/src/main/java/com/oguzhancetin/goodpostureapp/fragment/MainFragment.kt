@@ -99,8 +99,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     private fun clearScreen() {
-        binding.viewFinder.visibility = View.VISIBLE
-        binding.imageView.visibility = View.INVISIBLE
+        binding.apply {
+            viewFinder.visibility = View.VISIBLE
+            imageView.visibility = View.INVISIBLE
+            btnClear.visibility = View.INVISIBLE
+        }
+
+
     }
 
 
@@ -141,7 +146,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                         Uri.fromFile(photoFile) //Uri.parse("file:///storage/emulated/0/Android/media/com.oguzhancetin.goodpostureapp/GoodPostureApp/2021-11-26-12-01-36-293.jpg") //
                     val msg = "Photo capture succeeded: $savedUri"
                     setImageView(savedUri)
-                    Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+                    binding.btnClear.visibility = View.VISIBLE
+                    //Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
                     Log.d(TAG, msg)
                 }
 
