@@ -2,4 +2,9 @@
     <string name="app_name">GoodPostureApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="camera">camera</string>
+    <string name="excecise">excecise</string>
+    <string name="records">records</string>
+    <string name="exercises">exercises</string>
+    <string name="gallery">gallery</string>
 </resources>
