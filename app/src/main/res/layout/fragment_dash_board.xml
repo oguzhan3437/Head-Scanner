@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary"
+
     tools:context=".fragment.DashBoardFragment">
 
 <!--    <androidx.recyclerview.widget.RecyclerView
@@ -24,14 +25,14 @@
         android:layout_height="200dp"
         android:layout_gravity="top"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:elevation="3dp"
         android:src="@drawable/tips1" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="110dp"
         android:backgroundTint="@color/background"
         app:shapeAppearance="@style/ShapeAppearance.PostureApp.LargeComponent">
 
@@ -39,7 +40,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="130dp">
+            android:layout_marginTop="110dp">
 
 
             <com.google.android.material.card.MaterialCardView

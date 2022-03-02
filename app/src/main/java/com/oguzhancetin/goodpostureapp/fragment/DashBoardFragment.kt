@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.AppBarConfiguration
 import com.oguzhancetin.goodpostureapp.R
 import com.oguzhancetin.goodpostureapp.databinding.FragmentDashBoardBinding
 import com.oguzhancetin.goodpostureapp.databinding.FragmentMainBinding
@@ -17,14 +19,33 @@ import kotlinx.android.synthetic.main.fragment_dash_board.view.*
 class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
 
 
-
     private fun goToCamera() {
-        findNavController().navigate(DashBoardFragmentDirections.actionDashBoardFragmentToMainFragment())
+        findNavController()
+            .navigate(DashBoardFragmentDirections.actionDashBoardFragmentToMainFragment())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.imageViewCamera.setOnClickListener {goToCamera()}
+        binding.imageViewCamera.setOnClickListener { goToCamera() }
+        binding.imageViewGallery.setOnClickListener { goToGallery() }
+        binding.imageViewExercise.setOnClickListener { goToExercises() }
+        binding.imageViewRecords.setOnClickListener { goToRecords() }
+
+    }
+
+    private fun goToRecords() {
+        findNavController()
+            .navigate(DashBoardFragmentDirections.actionDashBoardFragmentToRecordsFragment())
+    }
+
+    private fun goToExercises() {
+        findNavController()
+            .navigate(DashBoardFragmentDirections.actionDashBoardFragmentToExercisesFragment())
+    }
+
+    private fun goToGallery() {
+        findNavController()
+            .navigate(DashBoardFragmentDirections.actionDashBoardFragmentToGalleryFragment())
     }
 
     override fun getViewBinding(): FragmentDashBoardBinding {

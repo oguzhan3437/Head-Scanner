@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.MainFragment"
-        android:label="fragment_main"
+        android:label="Camera"
         tools:layout="@layout/fragment_main"
         >
         <argument
@@ -18,13 +18,13 @@
             android:defaultValue="@null"
             />
         <action
-            android:id="@+id/action_mainFragment_to_galleryFragment"
+            android:id="@+id/action_mainFragment_to_galleryFragment3"
             app:destination="@id/galleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/galleryFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.GalleryFragment"
-        android:label="fragment_gallery"
+        android:label="Gallery"
         tools:layout="@layout/fragment_gallery" >
         <action
             android:id="@+id/action_galleryFragment_to_mainFragment"
@@ -34,12 +34,12 @@
     <fragment
         android:id="@+id/exercisesFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.ExercisesFragment"
-        android:label="fragment_exercises"
+        android:label="Exercises"
         tools:layout="@layout/fragment_exercises" />
     <fragment
         android:id="@+id/dashBoardFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.DashBoardFragment"
-        android:label="fragment_dash_board"
+        android:label=" "
         tools:layout="@layout/fragment_dash_board" >
         <action
             android:id="@+id/action_dashBoardFragment_to_mainFragment"
@@ -50,5 +50,13 @@
         <action
             android:id="@+id/action_dashBoardFragment_to_galleryFragment"
             app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_dashBoardFragment_to_recordsFragment"
+            app:destination="@id/recordsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/recordsFragment"
+        android:name="com.oguzhancetin.goodpostureapp.fragment.RecordsFragment"
+        android:label="Records"
+        tools:layout="@layout/fragment_records" />
 </navigation>

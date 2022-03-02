@@ -2,13 +2,12 @@ package com.oguzhancetin.goodpostureapp.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oguzhancetin.goodpostureapp.R
 import com.oguzhancetin.goodpostureapp.adapter.ExerciseRcAdapter
 import com.oguzhancetin.goodpostureapp.databinding.FragmentExercisesBinding
 import com.oguzhancetin.goodpostureapp.databinding.FragmentExercisesBinding.*
-import com.oguzhancetin.goodpostureapp.model.Exercise
+import com.oguzhancetin.goodpostureapp.data.model.Exercise
 
 
 class ExercisesFragment : BaseFragment<FragmentExercisesBinding>() {

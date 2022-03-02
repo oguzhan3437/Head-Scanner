@@ -1,7 +1,6 @@
-package com.oguzhancetin.goodpostureapp.model
+package com.oguzhancetin.goodpostureapp.data.model
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
 
 data class Exercise(
     val id:Int,

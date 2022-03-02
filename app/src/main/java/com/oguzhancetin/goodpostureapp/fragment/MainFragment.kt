@@ -7,11 +7,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
+import androidx.camera.core.impl.PreviewConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -21,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.google.mlkit.vision.pose.PoseDetector
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
 import com.oguzhancetin.goodpostureapp.*
+import com.oguzhancetin.goodpostureapp.databinding.FragmentExercisesBinding
 import com.oguzhancetin.goodpostureapp.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -40,6 +43,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
+    private var width:Int = 0
+    private var height:Int = 0
 
     @Inject
     lateinit var poseDetector: PoseDetector
@@ -59,29 +64,49 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        args.uri?.let {
-            val uri = Uri.parse(it)
-            setImageView(uri)
+
+        val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener{
+            override fun onGlobalLayout() {
+                view.viewTreeObserver.removeOnGlobalLayoutListener(this);
+                height = binding.imageviewCamera.measuredHeight
+                width = binding.imageviewCamera.measuredWidth//1080 _binding.imageView.measuredWidth
+
+                args.uri?.let {
+                    val uri = Uri.parse(it)
+                    setImageView(uri)
+
+                    binding.imageviewCamera.measure(
+                        View.MeasureSpec.UNSPECIFIED,
+                        View.MeasureSpec.UNSPECIFIED
+                    )
+
+                }
+            }
+
         }
+
         /**
         val fragmentResultDialog = ShowResultDialogFragment()
         fragmentResultDialog.show(childFragmentManager, fragmentResultDialog.tag)
          **/
 
+        binding.imageviewCamera.viewTreeObserver. addOnGlobalLayoutListener(globalLayoutListener) //1397
         outputDirectory = getOutputDirectory(requireActivity().application)
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         binding.cameraCaptureButton.setOnClickListener { takePhoto() }
         binding.btnClear.setOnClickListener { clearScreen() }
-        binding.buttonFromDevice.setOnClickListener {
-            MainFragmentDirections.actionMainFragmentToGalleryFragment().also { direction ->
-                findNavController().navigate(direction)
-            }
-        }
+        binding.buttonFromDevice.setOnClickListener { goToGallery() }
 
 
         checkPermissionsOk()
 
+    }
+
+    private fun goToGallery() {
+        val navController =  findNavController()
+        val direction = MainFragmentDirections.actionMainFragmentToGalleryFragment3()
+        navController.navigate(direction)
     }
 
 
@@ -160,12 +185,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             binding.viewFinder.visibility = View.GONE
             binding.imageviewCamera.visibility = View.VISIBLE
 
-            binding.imageviewCamera.measure(
-                View.MeasureSpec.UNSPECIFIED,
-                View.MeasureSpec.UNSPECIFIED
-            )
-            val width = resources.displayMetrics.widthPixels //1080 _binding.imageView.measuredWidth
-            val height = binding.imageviewCamera.measuredHeight //1397
+
             //empty bitmap with given size
             val drawBitmap = Bitmap.createBitmap(
                 width,
@@ -249,6 +269,5 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    override fun getViewBinding(): FragmentMainBinding =
-        FragmentMainBinding.inflate(layoutInflater)
+    override fun getViewBinding() = FragmentMainBinding.inflate(layoutInflater)
 }

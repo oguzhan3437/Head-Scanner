@@ -26,6 +26,7 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>() {
         initRc()
     }
 
+
     private fun getImagesUri(): List<Uri> {
         val uriList = arrayListOf<Uri>()
         val imageFiles = getOutputDirectory(requireActivity().application).listFiles()
