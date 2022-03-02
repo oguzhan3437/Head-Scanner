@@ -23,6 +23,7 @@ import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
 import com.oguzhancetin.goodpostureapp.*
 import com.oguzhancetin.goodpostureapp.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_main.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -73,15 +74,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         binding.cameraCaptureButton.setOnClickListener { takePhoto() }
         binding.btnClear.setOnClickListener { clearScreen() }
         binding.buttonFromDevice.setOnClickListener {
-            MainFragmentDirections.actionMainFragmentToGalleryFragment2().also { direction ->
+            MainFragmentDirections.actionMainFragmentToGalleryFragment().also { direction ->
                 findNavController().navigate(direction)
             }
         }
-        binding.buttonGotoExercises.setOnClickListener {
-            MainFragmentDirections.actionMainFragmentToExercisesFragment().also {
-                findNavController().navigate(it)
-            }
-        }
+
 
         checkPermissionsOk()
 
@@ -101,7 +98,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     private fun clearScreen() {
         binding.apply {
             viewFinder.visibility = View.VISIBLE
-            imageView.visibility = View.INVISIBLE
+            imageviewCamera.visibility = View.INVISIBLE
             btnClear.visibility = View.INVISIBLE
         }
 
@@ -159,13 +156,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     private fun setImageView(uri: Uri?) {
-        if (binding.viewFinder.visibility == View.VISIBLE) {
+        /*if (binding.viewFinder.visibility == View.VISIBLE) {
             binding.viewFinder.visibility = View.GONE
-            binding.imageView.visibility = View.VISIBLE
+            binding.imageviewCamera.visibility = View.VISIBLE*/
 
-            binding.imageView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            binding.imageviewCamera.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
             val width = resources.displayMetrics.widthPixels //1080 _binding.imageView.measuredWidth
-            val height = binding.imageView.measuredHeight //1397
+            val height = binding.imageviewCamera.measuredHeight //1397
             //empty bitmap with given size
             val drawBitmap = Bitmap.createBitmap(
                 width,
@@ -184,21 +181,20 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             var canvas = Canvas(drawBitmap)
             canvas.drawBitmap(bitmap, 0f, 0f, null)
 
-            binding.imageView.invalidate()
+            binding.imageviewCamera.invalidate()
             //pose detection process change bitmap reference so image change
             val poseProcess = PoseDetectionProcess(
                 poseDetector,
                 canvas,
                 paint,
                 bitmap,
-                binding.imageView
+                binding.imageviewCamera
             )
             poseProcess.processPose(){processResult ->
                 when (processResult) {
                     is ProcessResult.ProcessSucces -> {
-
-                        binding.imageView.invalidate()
-                        Glide.with(this).load(drawBitmap).into(binding.imageView)
+                        Glide.with(this).load(drawBitmap).into(binding.imageviewCamera)
+                        binding.imageviewCamera.invalidate()
                     }
                     is ProcessResult.ProcessError -> {
                         Toast.makeText(
@@ -214,7 +210,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
 
 
-        }
+        //}
 
 
     }

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:context=".MainActivity"
+    android:background="@color/splash_black"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="-25dp">
 
@@ -26,7 +27,7 @@
 
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageview_camera"
                 android:layout_width="match_parent"
                 android:layout_height="464dp"
                 android:layout_marginBottom="32dp"

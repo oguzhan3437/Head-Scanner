@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/dashBoardFragment">
 
     <fragment
         android:id="@+id/mainFragment"
@@ -11,9 +11,6 @@
         android:label="fragment_main"
         tools:layout="@layout/fragment_main"
         >
-        <action
-            android:id="@+id/action_mainFragment_to_galleryFragment2"
-            app:destination="@id/galleryFragment" />
         <argument
             android:name="uri"
             app:argType="string"
@@ -21,8 +18,8 @@
             android:defaultValue="@null"
             />
         <action
-            android:id="@+id/action_mainFragment_to_exercisesFragment"
-            app:destination="@id/exercisesFragment" />
+            android:id="@+id/action_mainFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/galleryFragment"
@@ -38,9 +35,20 @@
         android:id="@+id/exercisesFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.ExercisesFragment"
         android:label="fragment_exercises"
-        tools:layout="@layout/fragment_exercises" >
+        tools:layout="@layout/fragment_exercises" />
+    <fragment
+        android:id="@+id/dashBoardFragment"
+        android:name="com.oguzhancetin.goodpostureapp.fragment.DashBoardFragment"
+        android:label="fragment_dash_board"
+        tools:layout="@layout/fragment_dash_board" >
         <action
-            android:id="@+id/action_exercisesFragment_to_mainFragment"
+            android:id="@+id/action_dashBoardFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_dashBoardFragment_to_exercisesFragment"
+            app:destination="@id/exercisesFragment" />
+        <action
+            android:id="@+id/action_dashBoardFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
 </navigation>

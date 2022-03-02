@@ -9,8 +9,8 @@ class ExerciseViewHolder(private val cardBinding: ExerciseCardBinding) :
     RecyclerView.ViewHolder(cardBinding.root) {
 
     fun bind(exercise: Exercise) {
-        Glide.with(cardBinding.imageviewExercise)
+        Glide.with(cardBinding.cardImageViewExercise)
             .load(exercise.imageLocation)
-            .into(cardBinding.imageviewExercise)
+            .into(cardBinding.cardImageViewExercise)
     }
 }
