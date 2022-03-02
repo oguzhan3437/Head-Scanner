@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="splash_black">#222731</color>
     <color name="black">#000000</color>
+    <color name="border">#707070</color>
 
 </resources>

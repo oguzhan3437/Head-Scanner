@@ -1,100 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".MainActivity"
-    android:background="@color/splash_black"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="-25dp">
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/viewFinder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="413dp"
-        android:layout_height="541dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    </androidx.camera.view.PreviewView>
 
-        <androidx.camera.view.PreviewView
-            android:id="@+id/viewFinder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="44dp">
+    <ImageView
+        android:id="@+id/imageview_camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
 
-
-            <ImageView
-                android:id="@+id/imageview_camera"
-                android:layout_width="match_parent"
-                android:layout_height="464dp"
-                android:layout_marginBottom="32dp"
-                android:minHeight="508dp"
-                android:visibility="visible" />
-        </androidx.camera.view.PreviewView>
-
-        <ImageView
-            android:visibility="invisible"
-            android:id="@+id/btn_clear"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right"
-            android:layout_margin="10dp"
-            android:src="@drawable/clear_icon"
-            android:text="Clear"
-            tools:layout_editor_absoluteX="50dp"
-            tools:layout_editor_absoluteY="646dp" />
-
-    </FrameLayout>
-
+    <ImageView
+        android:id="@+id/btn_clear"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:layout_margin="10dp"
+        android:src="@drawable/clear_icon"
+        android:text="Clear"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteY="646dp" />
 
     <ImageView
         android:id="@+id/button_from_device"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|right"
-        android:layout_marginTop="44dp"
-        android:src="@drawable/image_icon"
-        android:text="Load Picture"
-        app:layout_constraintEnd_toStartOf="@+id/cameraCaptureButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cameraCaptureButton" />
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/gallery_icon2"
+        android:text="Load Picture" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cameraCaptureButton"
         android:layout_width="90dp"
         android:layout_height="90dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/circle"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
-
-    <Button
-        android:id="@+id/button_goto_exercises"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="44dp"
-        android:src="@drawable/exercises_icon"
-        android:text="Exercises"
-        app:circularflow_radiusInDP="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.644"
-        app:layout_constraintStart_toEndOf="@+id/cameraCaptureButton"
-        app:layout_constraintTop_toTopOf="@+id/cameraCaptureButton" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="681dp" />
+        android:text="Button" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

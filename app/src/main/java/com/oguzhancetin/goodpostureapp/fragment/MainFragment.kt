@@ -156,11 +156,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     private fun setImageView(uri: Uri?) {
-        /*if (binding.viewFinder.visibility == View.VISIBLE) {
+        if (binding.viewFinder.visibility == View.VISIBLE) {
             binding.viewFinder.visibility = View.GONE
-            binding.imageviewCamera.visibility = View.VISIBLE*/
+            binding.imageviewCamera.visibility = View.VISIBLE
 
-            binding.imageviewCamera.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            binding.imageviewCamera.measure(
+                View.MeasureSpec.UNSPECIFIED,
+                View.MeasureSpec.UNSPECIFIED
+            )
             val width = resources.displayMetrics.widthPixels //1080 _binding.imageView.measuredWidth
             val height = binding.imageviewCamera.measuredHeight //1397
             //empty bitmap with given size
@@ -190,7 +193,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 bitmap,
                 binding.imageviewCamera
             )
-            poseProcess.processPose(){processResult ->
+            poseProcess.processPose() { processResult ->
                 when (processResult) {
                     is ProcessResult.ProcessSucces -> {
                         Glide.with(this).load(drawBitmap).into(binding.imageviewCamera)
@@ -209,8 +212,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             }
 
 
-
-        //}
+        }
 
 
     }
