@@ -46,7 +46,7 @@ import javax.inject.Inject
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private val args: MainFragmentArgs by navArgs()
-    //private val viewModel: RecordViewModel by viewModels()
+    private val viewModel: RecordViewModel by viewModels()
 
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
@@ -83,9 +83,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     View.MeasureSpec.UNSPECIFIED,
                     View.MeasureSpec.UNSPECIFIED
                 )
-                args.uri?.let {
-                    val uri = Uri.parse(it)
-                    setImageView(uri)
+                args.apply {
+                    uri?.let {
+                        val uri = Uri.parse(it)
+                        setImageView(uri)
+
+                    }
 
                 }
             }
@@ -226,17 +229,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     is ProcessResult.ProcessSucces -> {
                         Glide.with(this).load(drawBitmap).into(binding.imageviewCamera)
                         binding.imageviewCamera.invalidate()
-                        showResultDialog(this.requireContext()) {
-                          /*  viewModel.insert(
-                                Record(
-                                    title = "11-11-2021",
-                                    imageUri = currentPhotoUri,
-                                    id = null
-                                )
-                            )
-
-                           */
-                        }
+                        showResultDialog()
                     }
                     is ProcessResult.ProcessError -> {
                         Toast.makeText(
@@ -254,6 +247,21 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
 
 
+    }
+    private fun showResultDialog(){
+        if(args.isRecordedPhoto.not()){
+            showResultDialog(this.requireContext()) {
+                viewModel.insert(
+                    Record(
+                        title = "11-11-2021",
+                        imageUri = currentPhotoUri.toString(),
+                        id = null
+                    )
+                )
+
+
+            }
+        }
     }
 
     private fun startCamera() {

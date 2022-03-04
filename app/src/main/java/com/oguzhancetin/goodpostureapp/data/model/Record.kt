@@ -5,12 +5,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "record_table")
 data class Record(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id:Int?,
     @ColumnInfo(name = "title")
     val title:String?,
     @ColumnInfo(name = "image_uri")
-    val imageUri: Uri?
+    val imageUri: String?
 )

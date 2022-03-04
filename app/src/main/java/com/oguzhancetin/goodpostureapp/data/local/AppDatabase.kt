@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.oguzhancetin.goodpostureapp.data.model.Record
 
-@Database(entities = [Record::class], version = 1)
+@Database(entities = [Record::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun recordDao(): RecordsDao

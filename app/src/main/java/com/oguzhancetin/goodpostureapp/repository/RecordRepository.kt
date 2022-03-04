@@ -12,11 +12,13 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class RecordRepository @Inject constructor(@ApplicationContext context: Context) {
-    private val dao = AppDatabase.getDatabase(context).recordDao()
-    val records: Flow<List<Record>> = dao.getAll()
-    suspend fun insert(record: Record){
-        dao.insert(record)
+class RecordRepository @Inject constructor(
+    @ApplicationContext context: Context,
+    private val recordDao: RecordsDao
+) {
+    val records: Flow<List<Record>> = recordDao.getAll()
+    suspend fun insert(record: Record) {
+        recordDao.insert(record)
     }
 
 }

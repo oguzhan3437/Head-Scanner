@@ -18,37 +18,46 @@
             android:elevation="3dp"
             tools:listitem="@layout/card_tip" />-->
     <com.google.android.material.card.MaterialCardView
+        style="@style/ShapeAppearance.PostureApp.Shape1"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        app:shapeAppearance="@style/ShapeAppearance.PostureApp.Shape1"
         android:backgroundTint="@color/primary"
-        style="@style/ShapeAppearance.PostureApp.Shape1"
+        app:shapeAppearance="@style/ShapeAppearance.PostureApp.Shape1"
 
         ></com.google.android.material.card.MaterialCardView>
 
-    <!--TODO:must be replace with RC-->
-    <ImageView
-        android:id="@+id/rc_tips"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_gravity="top"
         android:layout_marginHorizontal="18dp"
-        android:scaleType="centerCrop"
         android:layout_marginTop="10dp"
+        android:id="@+id/pager"
         android:elevation="3dp"
-        android:src="@drawable/tips1" />
+        android:orientation="horizontal"
+
+        />
+    <me.relex.circleindicator.CircleIndicator3
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"/>
+
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="110dp"
         android:backgroundTint="@color/background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="110dp">
+            >
 
 
             <com.google.android.material.card.MaterialCardView
@@ -65,12 +74,27 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearance="@style/ShapeAppearance.PostureApp.MediumComponent">
 
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/camera"
-                    android:src="@drawable/camera_icon" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/camera"
+                        android:src="@drawable/camera_icon" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Camera" />
+                </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -86,13 +110,25 @@
                 app:layout_constraintStart_toEndOf="@+id/image_view_records"
                 app:layout_constraintTop_toBottomOf="@+id/image_view_exercise"
                 app:shapeAppearance="@style/ShapeAppearance.PostureApp.MediumComponent">
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
                 <ImageView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/gallery"
-                    android:src="@drawable/gallery_icon2" />
+                    android:src="@drawable/gallery_icon" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Gallery" />
+            </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -108,6 +144,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_view_camera"
                 app:shapeAppearance="@style/ShapeAppearance.PostureApp.MediumComponent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="70dp"
@@ -115,6 +156,14 @@
                     android:layout_gravity="center"
                     android:contentDescription="@string/records"
                     android:src="@drawable/ic_plan" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Records" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -130,32 +179,36 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearance="@style/ShapeAppearance.PostureApp.MediumComponent">
 
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/exercises"
-                    android:src="@drawable/exercises" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/exercises"
+                        android:src="@drawable/ic_exercise_dumbell2" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Exercises" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="392dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.8032407" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
 
 </FrameLayout>

@@ -1,19 +1,16 @@
 package com.oguzhancetin.goodpostureapp.data.local
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.oguzhancetin.goodpostureapp.data.model.Record
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecordsDao {
-    @Query("SELECT * FROM record")
+    @Query("SELECT * FROM record_table")
     fun getAll(): Flow<List<Record>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(record: Record)
 
     @Delete

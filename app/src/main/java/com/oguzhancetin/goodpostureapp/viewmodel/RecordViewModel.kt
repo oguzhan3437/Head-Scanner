@@ -1,6 +1,7 @@
 package com.oguzhancetin.goodpostureapp.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -22,6 +23,11 @@ class RecordViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO){
             recordRepository.insert(record)
         }
+
+
+    fun printViewModel(){
+        Log.e("viewModelRecord","çalıştı")
+    }
 
 
 }

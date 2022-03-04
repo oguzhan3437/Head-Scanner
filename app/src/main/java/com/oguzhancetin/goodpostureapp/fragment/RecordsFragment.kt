@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.oguzhancetin.goodpostureapp.R.id
@@ -24,17 +25,19 @@ class RecordsFragment : BaseFragment<FragmentRecordsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.records.observe(this.viewLifecycleOwner) {
-            val adapter = RecordsAdapter(it, requireContext()) { record ->
-                goToCamera(record.imageUri)
-            }
-            binding.listviewRecords.adapter = adapter
+        val adapter = RecordsAdapter(listOf<Record>(), requireContext()) { record ->
+            goToCamera(record.imageUri?.toUri())
         }
+        binding.listviewRecords.adapter = adapter
+        viewModel.records.observe(this.viewLifecycleOwner) {
+            adapter.loadData(it)
+        }
+        viewModel.printViewModel()
     }
 
     private fun goToCamera(uri: Uri?) {
         findNavController()
-            .navigate(RecordsFragmentDirections.actionRecordsFragmentToMainFragment(uri.toString()))
+            .navigate(RecordsFragmentDirections.actionRecordsFragmentToMainFragment(uri=uri.toString(),isRecordedPhoto = true))
     }
 
 

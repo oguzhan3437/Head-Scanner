@@ -17,6 +17,11 @@
             app:nullable="true"
             android:defaultValue="@null"
             />
+        <argument
+            android:name="isRecordedPhoto"
+            app:argType="boolean"
+            android:defaultValue="false">
+        </argument>
         <action
             android:id="@+id/action_mainFragment_to_galleryFragment3"
             app:destination="@id/galleryFragment" />
