@@ -10,19 +10,27 @@ import com.oguzhancetin.goodpostureapp.data.model.Record
 @Database(entities = [Record::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
-
+    abstract fun recordDao(): RecordsDao
     companion object {
+        // Singleton prevents multiple instances of database opening at the
+        // same time.
         @Volatile
-        private var database: AppDatabase? = null
-        fun getNewInstance(context: Application): AppDatabase {
-            if (database == null) {
-                return Room.databaseBuilder(context, AppDatabase::class.java, "ForwardHeadDb")
-                    .build()
+        private var INSTANCE: AppDatabase? = null
+
+        fun getDatabase(context: Context): AppDatabase {
+            // if the INSTANCE is not null, then return it,
+            // if it is, then create the database
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "posture_database"
+                ).build()
+                INSTANCE = instance
+                // return instance
+                instance
             }
-            return database!!
         }
+
     }
-
-
-    abstract fun userDao(): RecordsDao
 }

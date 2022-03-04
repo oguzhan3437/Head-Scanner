@@ -3,6 +3,7 @@ package com.oguzhancetin.goodpostureapp.fragment
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.*
+import android.icu.text.AlphabeticIndex
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -17,14 +18,20 @@ import androidx.camera.core.impl.PreviewConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelLazy
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.mlkit.vision.pose.PoseDetector
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
 import com.oguzhancetin.goodpostureapp.*
+import com.oguzhancetin.goodpostureapp.data.model.Record
 import com.oguzhancetin.goodpostureapp.databinding.FragmentExercisesBinding
 import com.oguzhancetin.goodpostureapp.databinding.FragmentMainBinding
+import com.oguzhancetin.goodpostureapp.viewmodel.MainActivityViewModel
+import com.oguzhancetin.goodpostureapp.viewmodel.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.io.File
@@ -39,12 +46,14 @@ import javax.inject.Inject
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private val args: MainFragmentArgs by navArgs()
+    //private val viewModel: RecordViewModel by viewModels()
 
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-    private var width:Int = 0
-    private var height:Int = 0
+    private var width: Int = 0
+    private var height: Int = 0
+    private var currentPhotoUri: Uri? = null
 
     @Inject
     lateinit var poseDetector: PoseDetector
@@ -65,32 +74,30 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener{
+        val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this);
                 height = binding.imageviewCamera.measuredHeight
                 width = binding.imageviewCamera.measuredWidth//1080 _binding.imageView.measuredWidth
-
+                binding.imageviewCamera.measure(
+                    View.MeasureSpec.UNSPECIFIED,
+                    View.MeasureSpec.UNSPECIFIED
+                )
                 args.uri?.let {
                     val uri = Uri.parse(it)
                     setImageView(uri)
-
-                    binding.imageviewCamera.measure(
-                        View.MeasureSpec.UNSPECIFIED,
-                        View.MeasureSpec.UNSPECIFIED
-                    )
 
                 }
             }
 
         }
 
-        /**
-        val fragmentResultDialog = ShowResultDialogFragment()
-        fragmentResultDialog.show(childFragmentManager, fragmentResultDialog.tag)
-         **/
 
-        binding.imageviewCamera.viewTreeObserver. addOnGlobalLayoutListener(globalLayoutListener) //1397
+
+
+
+
+        binding.imageviewCamera.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener) //1397
         outputDirectory = getOutputDirectory(requireActivity().application)
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -104,7 +111,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     private fun goToGallery() {
-        val navController =  findNavController()
+        val navController = findNavController()
         val direction = MainFragmentDirections.actionMainFragmentToGalleryFragment3()
         navController.navigate(direction)
     }
@@ -166,6 +173,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     //Uri.fromFile(photoFile)
                     val savedUri =
                         Uri.fromFile(photoFile) //Uri.parse("file:///storage/emulated/0/Android/media/com.oguzhancetin.goodpostureapp/GoodPostureApp/2021-11-26-12-01-36-293.jpg") //
+                    currentPhotoUri = savedUri
                     val msg = "Photo capture succeeded: $savedUri"
                     setImageView(savedUri)
                     binding.btnClear.visibility = View.VISIBLE
@@ -218,6 +226,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     is ProcessResult.ProcessSucces -> {
                         Glide.with(this).load(drawBitmap).into(binding.imageviewCamera)
                         binding.imageviewCamera.invalidate()
+                        showResultDialog(this.requireContext()) {
+                          /*  viewModel.insert(
+                                Record(
+                                    title = "11-11-2021",
+                                    imageUri = currentPhotoUri,
+                                    id = null
+                                )
+                            )
+
+                           */
+                        }
                     }
                     is ProcessResult.ProcessError -> {
                         Toast.makeText(

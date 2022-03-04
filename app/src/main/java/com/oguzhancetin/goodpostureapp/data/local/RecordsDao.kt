@@ -6,11 +6,12 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.oguzhancetin.goodpostureapp.data.model.Record
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecordsDao {
     @Query("SELECT * FROM record")
-    fun getAll(): LiveData<List<Record>>
+    fun getAll(): Flow<List<Record>>
 
     @Insert
     fun insert(record: Record)

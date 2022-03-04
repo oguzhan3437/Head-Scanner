@@ -39,7 +39,7 @@
     <fragment
         android:id="@+id/dashBoardFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.DashBoardFragment"
-        android:label=" "
+        android:label="Head Scanner"
         tools:layout="@layout/fragment_dash_board" >
         <action
             android:id="@+id/action_dashBoardFragment_to_mainFragment"
@@ -58,5 +58,9 @@
         android:id="@+id/recordsFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.RecordsFragment"
         android:label="Records"
-        tools:layout="@layout/fragment_records" />
+        tools:layout="@layout/fragment_records" >
+        <action
+            android:id="@+id/action_recordsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

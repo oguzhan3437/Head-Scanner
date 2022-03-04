@@ -9,6 +9,8 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.view.LayoutInflater
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 
 
@@ -50,5 +52,22 @@ fun getOutputDirectory(application:Application): File {
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else filesDir
     }
+
+}
+
+fun showResultDialog(context: Context,onPositiviClick:()->Unit) {
+    val customAlertDialogView = LayoutInflater.from(context)
+        .inflate(R.layout.fragment_show_result_dialog, null, false)
+    val materialDialog = MaterialAlertDialogBuilder(context,R.style.ThemeOverlay_App_MaterialAlertDialog)
+    materialDialog.setView(customAlertDialogView)
+        .setTitle("Save captured photo")
+        .setPositiveButton("Add") { dialog, _ ->
+            onPositiviClick.invoke()
+            dialog.dismiss()
+        }
+        .setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+        .show()
 
 }
