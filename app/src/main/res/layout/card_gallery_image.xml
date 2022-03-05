@@ -6,18 +6,19 @@
     android:layout_width="wrap_content"
     android:orientation="vertical">
 <com.google.android.material.card.MaterialCardView
-
     android:layout_width="130dp"
     android:layout_height="130dp"
+
     >
 
     <ImageView
         android:id="@+id/img_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-        android:layout_margin="5dp"
-
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher" />
 

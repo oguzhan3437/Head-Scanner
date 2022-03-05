@@ -3,6 +3,7 @@ package com.oguzhancetin.goodpostureapp.fragment
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.oguzhancetin.goodpostureapp.MainActivity
 import com.oguzhancetin.goodpostureapp.databinding.ActivityFragmentSlidePagerBinding
 import com.oguzhancetin.goodpostureapp.adapter.SlideIntroRcAdapter
@@ -22,7 +23,7 @@ class ScreenSlidePagerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityFragmentSlidePagerBinding.inflate(layoutInflater)
 
-        binding.viewPager2.adapter = SlideIntroRcAdapter()
+        binding.viewPager2.adapter = SlideIntroRcAdapter(this)
         binding.dotsIndicator.setViewPager2(binding.viewPager2)
         binding.buttonGotoMainPage.setOnClickListener {
             Intent(this, MainActivity::class.java).also {

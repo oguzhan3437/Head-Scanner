@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_GoodPostureApp)
         super.onCreate(savedInstanceState)
 
-        //setActivity()
+        setActivity()
         binding = ActivityMainBinding.inflate(layoutInflater)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment)

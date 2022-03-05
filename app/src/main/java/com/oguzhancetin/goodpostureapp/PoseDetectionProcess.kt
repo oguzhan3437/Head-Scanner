@@ -33,7 +33,6 @@ class PoseDetectionProcess(
         poseDetector.process(InputImage.fromBitmap(bitmap, 0))
             .addOnSuccessListener { pose ->
                 displayAll(pose)
-
                 resultCallback.invoke(ProcessResult.ProcessSucces("Başarılı"))
 
             }

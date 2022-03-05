@@ -4,13 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/splashColor">
 
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager2"
-        android:layout_width="370dp"
-        android:layout_height="531dp"
+        android:layout_width="414dp"
+        android:layout_height="650dp"
+        android:theme="@style/Theme.GoodPostureApp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,8 +24,8 @@
         android:id="@+id/dots_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        app:dotsColor="@color/black"
+        android:layout_marginTop="5dp"
+        app:dotsColor="@color/white"
         app:dotsCornerRadius="8dp"
         app:dotsSize="16dp"
         app:dotsSpacing="4dp"
@@ -33,12 +35,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewPager2"
         app:progressMode="true"
-        app:selectedDotColor="@color/purple_500" />
+        app:selectedDotColor="@color/primary" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_goto_main_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/primary"
         android:text="Get Started"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
