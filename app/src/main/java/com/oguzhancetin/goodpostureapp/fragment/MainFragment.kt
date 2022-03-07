@@ -3,34 +3,30 @@ package com.oguzhancetin.goodpostureapp.fragment
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.*
-import android.icu.text.AlphabeticIndex
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
-import androidx.camera.core.impl.PreviewConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelLazy
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.window.layout.WindowInfoTracker
+import androidx.window.layout.WindowMetricsCalculator
 import com.bumptech.glide.Glide
 import com.google.mlkit.vision.pose.PoseDetector
-import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
 import com.oguzhancetin.goodpostureapp.*
 import com.oguzhancetin.goodpostureapp.data.model.Record
-import com.oguzhancetin.goodpostureapp.databinding.FragmentExercisesBinding
 import com.oguzhancetin.goodpostureapp.databinding.FragmentMainBinding
-import com.oguzhancetin.goodpostureapp.viewmodel.MainActivityViewModel
 import com.oguzhancetin.goodpostureapp.viewmodel.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -51,9 +47,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
+    private lateinit var windowManager: WindowInfoTracker
     private var width: Int = 0
     private var height: Int = 0
     private var currentPhotoUri: Uri? = null
+
 
     @Inject
     lateinit var poseDetector: PoseDetector
@@ -73,6 +71,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -248,8 +247,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
 
     }
-    private fun showResultDialog(){
-        if(args.isRecordedPhoto.not()){
+
+    private fun showResultDialog() {
+        if (args.isRecordedPhoto.not()) {
             showResultDialog(this.requireContext()) {
                 viewModel.insert(
                     Record(
@@ -265,11 +265,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     private fun startCamera() {
+        val metrics = WindowMetricsCalculator.getOrCreate()
+            .computeCurrentWindowMetrics(this.requireActivity()).bounds
+        val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
         //pose detection innitiliazed
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
             //preview
             val preview = Preview.Builder()
+                .setTargetAspectRatio(screenAspectRatio)
                 .build()
                 .also {
                     it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
@@ -277,6 +281,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             imageCapture = ImageCapture.Builder()
+                .setTargetAspectRatio(screenAspectRatio)
                 .build()
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -294,6 +299,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             requireContext(),
             it
         ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cameraExecutor.shutdown()
     }
 
     override fun getViewBinding() = FragmentMainBinding.inflate(layoutInflater)

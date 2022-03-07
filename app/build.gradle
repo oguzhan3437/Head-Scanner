@@ -97,6 +97,8 @@ dependencies {
 
     //dot indicator
     implementation 'me.relex:circleindicator:2.1.6'
+    //windowManager
+    implementation'androidx.window:window:1.0.0'
 
 
 }
