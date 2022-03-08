@@ -41,15 +41,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setActivity() {
         model.userIntoInfo.observe(this) {
-            //TODO: change when condition to it
-            when (false) {
+            when (it) {
                 false -> {
-                    val intent = Intent(this, ScreenSlidePagerActivity::class.java)
-                    startActivity(intent)
+                    Intent(this, ScreenSlidePagerActivity::class.java).also {
+                        startActivity(it)
+                        finish()
+                    }
                     model.writeUserIntroInfo(true)
                 }
                 true -> {
-
                 }
             }
         }

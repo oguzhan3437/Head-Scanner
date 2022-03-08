@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -29,7 +28,6 @@ import com.oguzhancetin.goodpostureapp.data.model.Record
 import com.oguzhancetin.goodpostureapp.databinding.FragmentMainBinding
 import com.oguzhancetin.goodpostureapp.viewmodel.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_main.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -228,7 +226,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     is ProcessResult.ProcessSucces -> {
                         Glide.with(this).load(drawBitmap).into(binding.imageviewCamera)
                         binding.imageviewCamera.invalidate()
-                        showResultDialog()
+                        //TODO: burası düzeltilmeli
+                       /* processResult.degree?.let { degree->
+                            showResultBottomSheet(degree.toInt())
+                        }*/
+                        showResultBottomSheet(30)
+
                     }
                     is ProcessResult.ProcessError -> {
                         Toast.makeText(
@@ -248,9 +251,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     }
 
-    private fun showResultDialog() {
+    private fun showResultBottomSheet(degree:Int) {
         if (args.isRecordedPhoto.not()) {
-            showResultDialog(this.requireContext()) {
+            val bottomSheet = ResultBottomSheet(degree){
                 viewModel.insert(
                     Record(
                         title = "11-11-2021",
@@ -258,9 +261,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                         id = null
                     )
                 )
-
-
             }
+            bottomSheet.show(parentFragmentManager,"BottomSheet")
         }
     }
 

@@ -37,8 +37,8 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
         binding.pager.adapter = adapter
         binding.indicator.apply {
             tintIndicator(
-                ContextCompat.getColor(requireContext(), R.color.black),
-                ContextCompat.getColor(requireContext(), R.color.primary)
+                ContextCompat.getColor(requireContext(), R.color.primary),
+                ContextCompat.getColor(requireContext(), R.color.white)
             )
             setViewPager(binding.pager)
         }

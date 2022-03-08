@@ -22,6 +22,7 @@ class SlideIntroRcAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
             2 -> Onboarding3()
             else -> Onboarding1()
         }
+
 }
 
 

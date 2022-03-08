@@ -1,13 +1,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
-   <TextView
-       android:id="@+id/textview_result0"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text= "Your neck degree: 30 "
-       android:textSize="18sp"/>
+    android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textview_result0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Your neck degree: 30 "
+        android:layout_marginTop="10dp"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_marginTop="150dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/text_ok"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/text_cancel"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"/>
+    </LinearLayout>
 </LinearLayout>

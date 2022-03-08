@@ -11,9 +11,9 @@ import com.google.mlkit.vision.pose.PoseDetector
 import com.google.mlkit.vision.pose.PoseLandmark
 import kotlin.math.atan2
 
-sealed class ProcessResult(message:String?){
-class ProcessSucces(val message:String?): ProcessResult(message)
-class ProcessError(val message:String?): ProcessResult(message)
+sealed class ProcessResult(message: String?) {
+    class ProcessSucces(val degree: String?) : ProcessResult(degree)
+    class ProcessError(val message: String?) : ProcessResult(message)
 }
 
 
@@ -27,23 +27,22 @@ class PoseDetectionProcess(
     ) {
 
 
-
-    fun processPose(resultCallback:(ProcessResult?) -> Unit ) {
+    fun processPose(resultCallback: (ProcessResult?) -> Unit) {
 
         poseDetector.process(InputImage.fromBitmap(bitmap, 0))
             .addOnSuccessListener { pose ->
-                displayAll(pose)
-                resultCallback.invoke(ProcessResult.ProcessSucces("Başarılı"))
-
+                resultCallback.invoke(
+                    ProcessResult.ProcessSucces(
+                        findNeckDegree(pose)?.toString()
+                    )
+                )
             }
             .addOnFailureListener { result ->
                 resultCallback.invoke(ProcessResult.ProcessError(result.message))
             }
-
-
     }
 
-    private fun displayAll(pose: Pose) {
+    private fun findNeckDegree(pose: Pose): Int? {
 
         try {
             val leftSholder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER)!!
@@ -61,10 +60,9 @@ class PoseDetectionProcess(
                 Pair(rightEar.position.x, rightEar.position.y)
 
 
-
-            val pairEar = Pair(leftEarLandMarks.first,leftEarLandMarks.second)
-            val pairShoulder = Pair(leftSholderLandMarks.first,leftSholderLandMarks.second)
-            val pairIntersection = Pair(leftSholderLandMarks.first,leftEarLandMarks.second)
+            val pairEar = Pair(leftEarLandMarks.first, leftEarLandMarks.second)
+            val pairShoulder = Pair(leftSholderLandMarks.first, leftSholderLandMarks.second)
+            val pairIntersection = Pair(leftSholderLandMarks.first, leftEarLandMarks.second)
 
             canvas.drawLine(
                 leftSholderLandMarks.first, leftSholderLandMarks.second,
@@ -72,7 +70,7 @@ class PoseDetectionProcess(
                 paint
             )
             canvas.drawPoint(
-                leftSholderLandMarks.first,leftEarLandMarks.second,
+                leftSholderLandMarks.first, leftEarLandMarks.second,
                 paint
             )
             canvas.drawLine(
@@ -80,25 +78,35 @@ class PoseDetectionProcess(
                 leftSholderLandMarks.first, leftSholderLandMarks.second,
                 paint
             )
-            val angle = getAngle(pairIntersection,leftSholder,leftEar)
+            val angle = getAngle(pairIntersection, leftSholder, leftEar)
 
 
 
-            canvas.drawText("angle : "+angle,200f,50f,paint)
+            canvas.drawText("angle : " + angle, 200f, 50f, paint)
 
+            return angle.toInt()
 
-
-        }catch (e:Exception){
-            Log.e("exception Pose",e.stackTraceToString())
+        } catch (e: Exception) {
+            Log.e("exception Pose", e.stackTraceToString())
         }
 
+        return null
     }
-    private fun getAngle(pair: Pair<Float,Float>, midPoint: PoseLandmark, lastPoint: PoseLandmark): Double {
+
+    private fun getAngle(
+        pair: Pair<Float, Float>,
+        midPoint: PoseLandmark,
+        lastPoint: PoseLandmark
+    ): Double {
         var result = Math.toDegrees(
-            (atan2(lastPoint.position.y - midPoint.position.y,
-                lastPoint.position.x - midPoint.position.x)
-                    - atan2(pair.second - midPoint.getPosition().y,
-                pair.first - midPoint.position.x)).toDouble()
+            (atan2(
+                lastPoint.position.y - midPoint.position.y,
+                lastPoint.position.x - midPoint.position.x
+            )
+                    - atan2(
+                pair.second - midPoint.getPosition().y,
+                pair.first - midPoint.position.x
+            )).toDouble()
         )
         result = Math.abs(result) // Angle should never be negative
         if (result > 180) {
