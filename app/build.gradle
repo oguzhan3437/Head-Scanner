@@ -100,5 +100,9 @@ dependencies {
     //windowManager
     implementation'androidx.window:window:1.0.0'
 
+    //work manager
+    def work_version = "2.7.1"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
 
 }

@@ -1,20 +1,29 @@
 package com.oguzhancetin.goodpostureapp.fragment
 
+import android.content.Context
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.Worker
+import androidx.work.WorkerParameters
 import com.oguzhancetin.goodpostureapp.R
 import com.oguzhancetin.goodpostureapp.adapter.TipsViewPagerAdapter
 import com.oguzhancetin.goodpostureapp.databinding.FragmentDashBoardBinding
 import kotlinx.android.synthetic.main.fragment_dash_board.*
 import kotlinx.android.synthetic.main.fragment_dash_board.view.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ticker
 import me.relex.circleindicator.CircleIndicator
+import java.util.concurrent.TimeUnit
+import kotlin.coroutines.CoroutineContext
 
 
 class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
-
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +52,31 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
             setViewPager(binding.pager)
         }
         adapter.registerAdapterDataObserver(indicator.adapterDataObserver);
+
+        val job = Job()
+        val scope = CoroutineScope(Dispatchers.IO + job)
+        dragPager(scope)
+
+
     }
+
+    private fun dragPager(scope: CoroutineScope) {
+
+        scope.launch {
+            var page = 1
+            while (true) {
+                if(page > 2) page = 1
+                delay(3000)
+                withContext(Dispatchers.Main) {
+                    binding.pager.currentItem = page
+                }
+                page++
+            }
+
+        }
+
+    }
+
 
     private fun goToRecords() {
         findNavController()
@@ -59,6 +92,7 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
         findNavController()
             .navigate(DashBoardFragmentDirections.actionDashBoardFragmentToGalleryFragment())
     }
+
     private fun goToCamera() {
         findNavController()
             .navigate(DashBoardFragmentDirections.actionDashBoardFragmentToMainFragment())
