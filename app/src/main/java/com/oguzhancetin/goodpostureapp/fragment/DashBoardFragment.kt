@@ -6,6 +6,7 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -24,6 +25,7 @@ import kotlin.coroutines.CoroutineContext
 
 
 class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
+    private lateinit var job: Job
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,21 +55,22 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
         }
         adapter.registerAdapterDataObserver(indicator.adapterDataObserver);
 
-        val job = Job()
-        val scope = CoroutineScope(Dispatchers.IO + job)
-        dragPager(scope)
+        dragPager()
 
 
     }
 
-    private fun dragPager(scope: CoroutineScope) {
+    private fun dragPager() {
 
-        scope.launch {
+        this.viewLifecycleOwner.lifecycleScope.launch (Dispatchers.IO) {
             var page = 1
             while (true) {
-                if(page > 2) page = 1
+                if (page > 2){
+                    page = 0
+                }
                 delay(3000)
                 withContext(Dispatchers.Main) {
+
                     binding.pager.currentItem = page
                 }
                 page++
@@ -100,6 +103,11 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
 
     override fun getViewBinding(): FragmentDashBoardBinding {
         return FragmentDashBoardBinding.inflate(layoutInflater)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
 
