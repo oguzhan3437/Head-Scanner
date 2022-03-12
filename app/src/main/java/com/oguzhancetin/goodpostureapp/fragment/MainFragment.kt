@@ -208,7 +208,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             )
 
 
-            var paint = Paint().apply { this.color = Color.RED }
+            var paint1 = Paint().apply {
+                color = ContextCompat.getColor(this@MainFragment.requireActivity(),R.color.scanner_color_1)
+                this.strokeWidth = 2f
+            }
+            var paint2 = Paint().apply {
+                color = ContextCompat.getColor(this@MainFragment.requireActivity(),R.color.scanner_color_2)
+                this.strokeWidth = 2f
+                this.pathEffect = setPathEffect(DashPathEffect(floatArrayOf(5f, 10f, 15f, 20f, 0f),0f))
+            }
             var canvas = Canvas(drawBitmap)
             canvas.drawBitmap(bitmap, 0f, 0f, null)
 
@@ -217,7 +225,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             val poseProcess = PoseDetectionProcess(
                 poseDetector,
                 canvas,
-                paint,
+                paint1,
+                paint2,
                 bitmap,
                 binding.imageviewCamera
             )

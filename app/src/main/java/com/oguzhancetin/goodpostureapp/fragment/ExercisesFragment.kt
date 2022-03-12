@@ -2,6 +2,7 @@ package com.oguzhancetin.goodpostureapp.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oguzhancetin.goodpostureapp.R
 import com.oguzhancetin.goodpostureapp.adapter.ExerciseRcAdapter

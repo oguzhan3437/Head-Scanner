@@ -2,9 +2,11 @@ package com.oguzhancetin.goodpostureapp
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.pose.Pose
 import com.google.mlkit.vision.pose.PoseDetector
@@ -20,7 +22,8 @@ sealed class ProcessResult(message: String?) {
 class PoseDetectionProcess(
     val poseDetector: PoseDetector,
     val canvas: Canvas,
-    val paint: Paint,
+    val paint1: Paint,
+    val paint2: Paint,
     val bitmap: Bitmap,
     private val view: View,
 
@@ -55,7 +58,7 @@ class PoseDetectionProcess(
                 Pair(leftSholder.position.x, leftSholder.position.y)
             val rightSholderLandMarks: Pair<Float, Float> =
                 Pair(rightSholder.position.x, rightSholder.position.y)
-            val leftEarLandMarks: Pair<Float, Float> = Pair(leftEar.position.x, leftEar.position.y)
+            val leftEarLandMarks: Pair<Float, Float> = Pair((leftEar.position.x+20f), (leftEar.position.y+30f))
             val rightEarLandMarks: Pair<Float, Float> =
                 Pair(rightEar.position.x, rightEar.position.y)
 
@@ -64,25 +67,27 @@ class PoseDetectionProcess(
             val pairShoulder = Pair(leftSholderLandMarks.first, leftSholderLandMarks.second)
             val pairIntersection = Pair(leftSholderLandMarks.first, leftEarLandMarks.second)
 
+
             canvas.drawLine(
                 leftSholderLandMarks.first, leftSholderLandMarks.second,
                 leftEarLandMarks.first, leftEarLandMarks.second,
-                paint
+                paint1
             )
-            canvas.drawPoint(
-                leftSholderLandMarks.first, leftEarLandMarks.second,
-                paint
-            )
+
+
             canvas.drawLine(
-                leftSholderLandMarks.first, leftEarLandMarks.second,
-                leftSholderLandMarks.first, leftSholderLandMarks.second,
-                paint
+                leftSholderLandMarks.first, leftSholderLandMarks.second+170f,
+                leftSholderLandMarks.first, leftEarLandMarks.second-170f,
+                paint2
             )
+            canvas.drawCircle(leftEarLandMarks.first,leftEarLandMarks.second,25f,paint1)
+            canvas.drawCircle(leftSholderLandMarks.first,leftSholderLandMarks.second,15f,paint1)
+
             val angle = getAngle(pairIntersection, leftSholder, leftEar)
 
 
 
-            canvas.drawText("angle : " + angle, 200f, 50f, paint)
+            canvas.drawText("angle : " + angle, 200f, 50f, paint1)
 
             return angle.toInt()
 

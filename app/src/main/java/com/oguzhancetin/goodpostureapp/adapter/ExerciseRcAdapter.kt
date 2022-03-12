@@ -6,9 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.oguzhancetin.goodpostureapp.databinding.ExerciseCardBinding
 import com.oguzhancetin.goodpostureapp.data.model.Exercise
 
-class ExerciseRcAdapter(private val exercises:List<Exercise>) : RecyclerView.Adapter<ExerciseViewHolder>() {
+class ExerciseRcAdapter(
+    private val exercises: List<Exercise>,
+) : RecyclerView.Adapter<ExerciseViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
-        val binding = ExerciseCardBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            ExerciseCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ExerciseViewHolder(binding)
     }
 

@@ -4,18 +4,27 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.appbar.AppBarLayout
+import com.oguzhancetin.goodpostureapp.R
 import com.oguzhancetin.goodpostureapp.databinding.FragmentGalleryBinding
 import com.oguzhancetin.goodpostureapp.databinding.FragmentGalleryBinding.*
 import com.oguzhancetin.goodpostureapp.adapter.GalleryRcAdapter
 import com.oguzhancetin.goodpostureapp.getOutputDirectory
+import com.oguzhancetin.goodpostureapp.util.ItemDecoration
+import kotlinx.android.synthetic.main.activity_main.*
 
 class GalleryFragment : BaseFragment<FragmentGalleryBinding>() {
 
-    private fun initRc() {
+    private fun initRc(view: View) {
         val galleryAdapter = GalleryRcAdapter(getImagesUri(), ::onImageClick)
         binding.rc.apply {
+            addItemDecoration(ItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_tiny)))
             adapter = galleryAdapter
             layoutManager = GridLayoutManager(requireContext(), 4)
         }
@@ -23,7 +32,7 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRc()
+        initRc(view)
     }
 
 

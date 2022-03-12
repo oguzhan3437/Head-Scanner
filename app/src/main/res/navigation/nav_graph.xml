@@ -46,7 +46,11 @@
         android:id="@+id/exercisesFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.ExercisesFragment"
         android:label="Exercises"
-        tools:layout="@layout/fragment_exercises" />
+        tools:layout="@layout/fragment_exercises" >
+        <action
+            android:id="@+id/action_exercisesFragment_to_exerciseDetailFragment"
+            app:destination="@id/exerciseDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/dashBoardFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.DashBoardFragment"
@@ -73,5 +77,14 @@
         <action
             android:id="@+id/action_recordsFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exerciseDetailFragment"
+        android:name="com.oguzhancetin.goodpostureapp.fragment.ExerciseDetailFragment"
+        android:label="fragment_exercise_detail"
+        tools:layout="@layout/fragment_exercise_detail" >
+        <argument
+            android:name="exercise"
+            app:argType="com.oguzhancetin.goodpostureapp.data.model.Exercise" />
     </fragment>
 </navigation>

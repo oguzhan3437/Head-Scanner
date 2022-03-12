@@ -12,6 +12,9 @@
     <color name="black">#000000</color>
     <color name="border">#707070</color>
     <color name="splashColor">#3c3f41</color>
+    <color name="dark_scrim">#66333333</color>
+    <color name="scanner_color_1">#ADADAD</color>
+    <color name="scanner_color_2">#9BB7BB</color>
 
 
 </resources>
