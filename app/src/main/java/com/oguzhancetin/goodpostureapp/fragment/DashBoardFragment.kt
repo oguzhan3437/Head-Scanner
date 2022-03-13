@@ -40,9 +40,8 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
     private fun initializePager() {
         //tips images
         val tipImageList = listOf(
-            R.drawable.tips1,
-            R.drawable.tips1,
-            R.drawable.tips1,
+            R.drawable.tip6,
+            R.drawable.tip7
         )
         val adapter = TipsViewPagerAdapter(tipImageList)
         binding.pager.adapter = adapter
@@ -65,7 +64,7 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
         this.viewLifecycleOwner.lifecycleScope.launch (Dispatchers.IO) {
             var page = 1
             while (true) {
-                if (page > 2){
+                if (page > 1){
                     page = 0
                 }
                 delay(3000)

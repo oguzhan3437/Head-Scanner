@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         setActivity()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow_icon)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
                     as NavHostFragment
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
 
     override fun onDestroy() {

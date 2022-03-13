@@ -17,11 +17,12 @@ class ExercisesFragment : BaseFragment<FragmentExercisesBinding>() {
         super.onViewCreated(view, savedInstanceState)
         val exerciseAdapter = ExerciseRcAdapter(
             listOf<Exercise>(
-                Exercise(1,"e6", R.drawable.e1),
-                Exercise(1,"e5", R.drawable.e2),
-                Exercise(1,"e4", R.drawable.e3),
-                Exercise(1,"e3", R.drawable.e4),
-                Exercise(1,"e2", R.drawable.e5),
+                Exercise(1,getString(R.string.exercise_name_1),getString(R.string.exercise_head_1),getString(R.string.exercise_explanation_1), R.drawable.e1),
+                Exercise(1,getString(R.string.exercise_name_2),getString(R.string.exercise_head_2),getString(R.string.exercise_explanation_2), R.drawable.e2),
+                Exercise(1,getString(R.string.exercise_name_3),getString(R.string.exercise_head_3),getString(R.string.exercise_explanation_3), R.drawable.e3),
+                Exercise(1,getString(R.string.exercise_name_4),getString(R.string.exercise_head_4),getString(R.string.exercise_explanation_4), R.drawable.e4),
+                Exercise(1,getString(R.string.exercise_name_5),getString(R.string.exercise_head_5),getString(R.string.exercise_explanation_5), R.drawable.e5),
+
             )
         )
         binding.exercisesRc.apply {

@@ -7,16 +7,46 @@
     tools:context=".fragment.ExerciseDetailFragment">
 
 
-
     <ImageView
         android:id="@+id/img_exercise"
-        android:layout_height="165dp"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="10dp"
+        android:layout_height="165dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         app:layout_collapseMode="parallax"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/e1" />
+
+    <TextView
+        android:id="@+id/txt_exercise_header_explanation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="35dp"
+        tools:text="Place 2 fingers at the bottom of your chin.Gently tuck your chin in and retract your head backwards.At the same time, use your fingers to keep the chin tucked in "
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/img_exercise"
+        tools:layout_editor_absoluteX="0dp">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/txt_exercise_explanation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:lineSpacingExtra="20dp"
+        android:layout_marginTop="50dp"
+        android:paddingHorizontal="10dp"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exercise_header_explanation"
+        tools:layout_editor_absoluteX="16dp"
+        tools:text="&#8226;Place 2 fingers at the bottom of your chin.\n&#8226;Gently tuck your chin in and retract your head backwards.\n&#8226; At the same time, use your fingers to keep the chin tucked in the entire time.\n&#8226; Hold the end position for 3 to 5 seconds.\n&#8226; Relax your neck for a moment (Let the neck come fwd).\n&#8226;Aim for 2 to 3 sets of 10 repetitions." />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

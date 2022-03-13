@@ -50,7 +50,17 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeBottomLeft">35dp</item>
         <item name="cornerSizeBottomRight">35dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
         <item name="cardElevation">0dp</item>
+
+    </style>
+    <style name="ShapeAppearance.PostureApp.Transparent"
+        parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">0dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="backgroundTint">@color/background</item>
+
 
     </style>
 

@@ -82,7 +82,7 @@
         android:id="@+id/exerciseDetailFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.ExerciseDetailFragment"
         android:label="fragment_exercise_detail"
-        tools:layout="@layout/fragment_exercise_detail" >
+        tools:layout="@layout/fragment_exercise_detail232" >
         <argument
             android:name="exercise"
             app:argType="com.oguzhancetin.goodpostureapp.data.model.Exercise" />

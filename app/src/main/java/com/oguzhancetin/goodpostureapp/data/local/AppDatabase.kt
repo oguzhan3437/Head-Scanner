@@ -2,15 +2,21 @@ package com.oguzhancetin.goodpostureapp.data.local
 
 import android.app.Application
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.oguzhancetin.goodpostureapp.data.model.Record
 
-@Database(entities = [Record::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Record::class],
+    version = 2,
+    exportSchema = true,
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun recordDao(): RecordsDao
+
     companion object {
         // Singleton prevents multiple instances of database opening at the
         // same time.

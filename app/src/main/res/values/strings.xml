@@ -11,4 +11,23 @@
     <string name="story_text2">A 60 degree angle results in the head weighing the equivalent of 27kg, which is similar to carrying around an 8-year-old child</string>
     <string name="story_text3">Take a photo of you standing sideways to see your neck degree</string>
     <string name="get_started">Get Started</string>
+
+    <string name="exercise_name_1">Chin Tucks</string>
+    <string name="exercise_name_2">Neck Flexion</string>
+    <string name="exercise_name_3">Doorway Stretch</string>
+    <string name="exercise_name_4">Shoulder Blade Squeeze </string>
+    <string name="exercise_name_5">Upper Trapezius Stretch</string>
+
+    <string name="exercise_head_1">This exercise will activate and strengthen your deep cervical muscles (front of the neck muscles)</string>
+    <string name="exercise_head_2">This will stretch the back of your neck muscles including the Suboccipital muscles.</string>
+    <string name="exercise_head_3">This stretch will help to open up your chest and shoulders, which could be very tight.</string>
+    <string name="exercise_head_4">This exercise will activate and strengthen your low and mid back muscles including Low and Mid Trapezius.</string>
+    <string name="exercise_head_5">This will stretch out the neck and upper back muscles (Scalene &amp; Upper Trapezius) which can get very tight on individuals with this forward neck syndrome.</string>
+    
+    <string name="exercise_explanation_2">&#8226;First, tuck your chin in using 2 fingers of one hand\n&#8226;Place your other hand on the back of your head and apply a gentle force down as you pull your head towards your chest\&#8226;When you feel a stretch at the back of your neck, hold the position for 20 to 30 seconds\n&#8226;Repeat this stretch 3 times\n&#8226;Keep your chin tucked as you do this stretch.</string>
+    <string name="exercise_explanation_1">&#8226;Place 2 fingers at the bottom of your chin\n&#8226;Gently tuck your chin in and retract your head backwards\n&#8226; At the same time, use your fingers to keep the chin tucked in the entire time\n&#8226; Hold the end position for 3 to 5 seconds\n&#8226; Relax your neck for a moment (Let the neck come fwd)\n&#8226;Aim for 2 to 3 sets of 10 repetitions</string>
+    <string name="exercise_explanation_3">&#8226;Position your elbows and hands in line with a doorframe\n&#8226;Step through the door slowly, until you feel a stretch\n&#8226;Hold this end position for 20 to 30 seconds before returning to the starting position\n&#8226;Repeat this stretch 2-3 times\n&#8226;Don’t arch you low back as you do this stretch.</string>
+    <string name="exercise_explanation_4">&#8226;Position your feet and knees slightly wider than your hips, as you sit on a chair\n&#8226;Maintain a chin tuck and raise your chest up, allowing your spine to be in a neutral position\n&#8226;Rest both of your arms down by your sides\n&#8226;Now bring your arms back and externally rotate them so that your thumbs are pointing backwards\n&#8226;Hold this position for 5-10 seconds and release\n&#8226;Aim for 2-3 sets of 10-15 repetitions\n&#8226;Breathe normally as you do these reps</string>
+    <string name="exercise_explanation_5">&#8226;Start either in a standing or seated position\n&#8226;Place one of your hands on the opposite side of your head\n&#8226;Now bring the head down towards your shoulder\n&#8226;Use the hand overhead to press your neck down – to get a deeper stretch (Not too hard)\n&#8226;Hold for 20-30 seconds and do 2-3 sets</string>
+
 </resources>

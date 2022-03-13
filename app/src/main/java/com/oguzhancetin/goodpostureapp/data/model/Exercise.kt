@@ -8,6 +8,8 @@ import java.io.Serializable
 class Exercise (
     val id:Int,
     val name:String,
+    val headerExplanation:String,
+    val explanation:String,
     @DrawableRes
     val imageLocation:Int,
 
