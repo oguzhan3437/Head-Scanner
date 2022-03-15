@@ -25,8 +25,6 @@ import kotlin.coroutines.CoroutineContext
 
 
 class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
-    private lateinit var job: Job
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,10 +59,10 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
 
     private fun dragPager() {
 
-        this.viewLifecycleOwner.lifecycleScope.launch (Dispatchers.IO) {
+        this.viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             var page = 1
             while (true) {
-                if (page > 1){
+                if (page > 1) {
                     page = 0
                 }
                 delay(3000)
@@ -103,11 +101,4 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
     override fun getViewBinding(): FragmentDashBoardBinding {
         return FragmentDashBoardBinding.inflate(layoutInflater)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
-    }
-
-
 }
