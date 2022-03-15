@@ -5,28 +5,26 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textview_result0"
+        android:id="@+id/txt_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         tools:text="Your neck degree: 30 "
         android:layout_marginTop="15dp"
         android:textSize="24sp" />
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"/>
+
     <TextView
+        android:id="@+id/txt_detail_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="18sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         tools:text=" weight of your head effectively increases to 12kg adding unnecessary strain to your neck">
 
     </TextView>
     <LinearLayout
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:orientation="horizontal"
         android:weightSum="2"
         android:layout_width="match_parent"

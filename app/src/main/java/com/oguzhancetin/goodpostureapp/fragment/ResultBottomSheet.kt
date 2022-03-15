@@ -24,8 +24,8 @@ class ResultBottomSheet(private val degree: Int, private val onCLickOk: () -> Un
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.textviewResult0.text = "Your neck degree: $degree "
-        binding.textviewResult0.text = getResultTextInDetail(degree)
+        binding.txtResult.text = "Your neck degree: $degree "
+        binding.txtDetailResult.text = getResultTextInDetail(degree)
         binding.textOk.setOnClickListener {
             onCLickOk.invoke()
             this.dismiss()
