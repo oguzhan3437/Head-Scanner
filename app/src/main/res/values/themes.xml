@@ -9,6 +9,7 @@
         <item name="colorSecondary">@color/primary</item>
         <item name="colorSecondaryVariant">@color/secondary</item>
         <item name="colorOnSecondary">@color/white</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -17,9 +18,10 @@
 
 
     </style>
-    <style name="LaunchTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="LaunchTheme" parent="Theme.GoodPostureApp">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:statusBarColor">@color/splash_black</item>
+
 
 
     </style>

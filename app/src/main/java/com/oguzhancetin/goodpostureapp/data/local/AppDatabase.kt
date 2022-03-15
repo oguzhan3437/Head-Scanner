@@ -10,7 +10,7 @@ import com.oguzhancetin.goodpostureapp.data.model.Record
 
 @Database(
     entities = [Record::class],
-    version = 2,
+    version = 1,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
