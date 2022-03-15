@@ -201,23 +201,23 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 Bitmap.Config.ARGB_8888
             )
             //
-            var bitmap = getResizedBitmap(
+            val bitmap = getResizedBitmap(
                 BitmapFactory.decodeFile(uri?.encodedPath),
                 width,
                 height
             )
 
 
-            var paint1 = Paint().apply {
+            val paint1 = Paint().apply {
                 color = ContextCompat.getColor(this@MainFragment.requireActivity(),R.color.scanner_color_1)
                 this.strokeWidth = 2f
             }
-            var paint2 = Paint().apply {
+            val paint2 = Paint().apply {
                 color = ContextCompat.getColor(this@MainFragment.requireActivity(),R.color.scanner_color_2)
                 this.strokeWidth = 2f
                 this.pathEffect = setPathEffect(DashPathEffect(floatArrayOf(5f, 10f, 15f, 20f, 0f),0f))
             }
-            var canvas = Canvas(drawBitmap)
+            val canvas = Canvas(drawBitmap)
             canvas.drawBitmap(bitmap, 0f, 0f, null)
 
             binding.imageviewCamera.invalidate()
@@ -239,7 +239,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                        /* processResult.degree?.let { degree->
                             showResultBottomSheet(degree.toInt())
                         }*/
-                        showResultBottomSheet(30)
+
 
                     }
                     is ProcessResult.ProcessError -> {
@@ -252,6 +252,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
                     else -> {}
                 }
+                showResultBottomSheet(30)
             }
 
 
