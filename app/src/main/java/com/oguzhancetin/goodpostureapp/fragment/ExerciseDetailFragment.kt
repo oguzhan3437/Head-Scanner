@@ -12,17 +12,11 @@ import com.oguzhancetin.goodpostureapp.R
 import com.oguzhancetin.goodpostureapp.databinding.FragmentExerciseDetailBinding
 
 
-
 class ExerciseDetailFragment : BaseFragment<FragmentExerciseDetailBinding>() {
-    private val args:ExerciseDetailFragmentArgs by navArgs()
+    private val args: ExerciseDetailFragmentArgs by navArgs()
 
     override fun getViewBinding(): FragmentExerciseDetailBinding {
         return FragmentExerciseDetailBinding.inflate(layoutInflater)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //  sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,6 +27,5 @@ class ExerciseDetailFragment : BaseFragment<FragmentExerciseDetailBinding>() {
         binding.imgExercise.transitionName = exercise.imageLocation.toString()
         Glide.with(binding.imgExercise).load(exercise.imageLocation).into(binding.imgExercise)
     }
-
 
 }

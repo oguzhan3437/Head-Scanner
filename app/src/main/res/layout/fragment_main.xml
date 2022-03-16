@@ -18,20 +18,32 @@
 
 
     </androidx.camera.view.PreviewView>
+
     <ImageView
         android:id="@+id/imageview_camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/camera"
         android:visibility="visible" />
+    <ProgressBar
+        android:id="@+id/determinateBar"
+        style="@android:style/Widget.Material.ProgressBar.Small"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:layout_marginTop="-20dp"
+        android:visibility="invisible"
+        />
 
     <ImageView
         android:id="@+id/btn_clear"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
+        android:contentDescription="@string/clear"
         android:layout_margin="10dp"
         android:src="@drawable/clear_icon"
-        android:text="Clear"
         android:visibility="invisible"
         tools:layout_editor_absoluteX="50dp"
         tools:layout_editor_absoluteY="646dp" />
@@ -40,11 +52,12 @@
         android:id="@+id/button_from_device"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_gravity="bottom|left"
-        android:layout_marginLeft="50dp"
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="50dp"
+        android:contentDescription="@string/gallery"
         android:layout_marginBottom="20dp"
         android:src="@drawable/gallery_icon2"
-        android:text="Load Picture" />
+        />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cameraCaptureButton"

@@ -1,4 +1,4 @@
-package com.oguzhancetin.goodpostureapp
+package com.oguzhancetin.goodpostureapp.util
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -26,7 +26,6 @@ fun getResizedBitmap(bm: Bitmap, newWidth: Int, newHeight: Int): Bitmap {
 }
 
 private fun Bitmap.compress(): Bitmap? {
-
     val out = ByteArrayOutputStream()
     compress(Bitmap.CompressFormat.JPEG, 100, out)
     val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))

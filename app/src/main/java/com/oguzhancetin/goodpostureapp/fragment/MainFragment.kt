@@ -17,9 +17,10 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowMetricsCalculator
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -27,9 +28,12 @@ import com.google.mlkit.vision.pose.PoseDetector
 import com.oguzhancetin.goodpostureapp.*
 import com.oguzhancetin.goodpostureapp.data.model.Record
 import com.oguzhancetin.goodpostureapp.databinding.FragmentMainBinding
+import com.oguzhancetin.goodpostureapp.util.PoseDetectionProcess
+import com.oguzhancetin.goodpostureapp.util.ProcessResult
+import com.oguzhancetin.goodpostureapp.util.getResizedBitmap
 import com.oguzhancetin.goodpostureapp.viewmodel.CameraViewModel
-import com.oguzhancetin.goodpostureapp.viewmodel.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,14 +51,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-    private lateinit var windowManager: WindowInfoTracker
     private var width: Int = 0
     private var height: Int = 0
     private var currentPhotoUri: Uri? = null
 
-
     @Inject
     lateinit var poseDetector: PoseDetector
+
 
     companion object {
         private const val TAG = "CameraXBasic"
@@ -74,7 +77,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         checkPermissionsOk()
         val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                view.viewTreeObserver.removeOnGlobalLayoutListener(this);
+                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 height = binding.imageviewCamera.measuredHeight
                 width = binding.imageviewCamera.measuredWidth//1080 _binding.imageView.measuredWidth
                 binding.imageviewCamera.measure(
@@ -84,12 +87,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 args.apply {
                     uri?.let {
                         val uri = Uri.parse(it)
+                        currentPhotoUri = uri
                         setImageView(uri)
                     }
                 }
             }
         }
-        binding.imageviewCamera.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener) //1397
+        binding.imageviewCamera.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
         outputDirectory = getOutputDirectory(requireActivity().application)
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -97,31 +101,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         binding.btnClear.setOnClickListener { clearScreen() }
         binding.buttonFromDevice.setOnClickListener { goToGallery() }
 
-
-
-        showCameraAlert()
-
-
+        showCameraAlertPopUp()
     }
 
-    private fun showCameraAlert() {
-        viewModel.showCameraAlerStatus.observe(this.viewLifecycleOwner) {
-            if (it) {
-                MaterialAlertDialogBuilder(
-                    this.requireContext(),
-                    R.style.ThemeOverlay_MaterialComponents_Dialog_Alert
-                )
-                    .setMessage("You must take picture left side")
-                    .setNegativeButton("Ok") { dialog, which ->
-
-                    }
-                    .setPositiveButton("Never Ask Again") { dialog, which ->
-                        viewModel.changeShowCameraAlertStatus(false)
-                    }
-                    .show()
-            }
-        }
-    }
 
     private fun goToGallery() {
         val navController = findNavController()
@@ -140,15 +122,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
     }
 
-    private fun clearScreen() {
-        binding.apply {
-            viewFinder.visibility = View.VISIBLE
-            imageviewCamera.visibility = View.INVISIBLE
-            btnClear.visibility = View.INVISIBLE
-            buttonFromDevice.visibility = View.VISIBLE
-            cameraCaptureButton.visibility = View.VISIBLE
-        }
-    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -182,7 +155,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             ContextCompat.getMainExecutor(requireActivity()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                    //Uri.fromFile(photoFile)
                     val savedUri =
                         Uri.fromFile(photoFile) //Uri.parse("file:///storage/emulated/0/Android/media/com.oguzhancetin.goodpostureapp/GoodPostureApp/2021-11-26-12-01-36-293.jpg") //
                     currentPhotoUri = savedUri
@@ -191,7 +163,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     binding.btnClear.visibility = View.VISIBLE
                     binding.buttonFromDevice.visibility = View.INVISIBLE
                     binding.cameraCaptureButton.visibility = View.INVISIBLE
-                    //Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
                     Log.d(TAG, msg)
                 }
 
@@ -207,6 +178,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             binding.viewFinder.visibility = View.GONE
             binding.imageviewCamera.visibility = View.VISIBLE
 
+            binding.btnClear.visibility = View.VISIBLE
+            binding.buttonFromDevice.visibility = View.INVISIBLE
+            binding.cameraCaptureButton.visibility = View.INVISIBLE
 
             //empty bitmap with given size
             val drawBitmap = Bitmap.createBitmap(
@@ -214,14 +188,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 height,
                 Bitmap.Config.ARGB_8888
             )
-            //
+            //resize and covert saved photo
             val bitmap = getResizedBitmap(
                 BitmapFactory.decodeFile(uri?.encodedPath),
                 width,
                 height
             )
-
-
+            //created canvas empty bitmap(fixed size) and put saved photo bitmap onto empty
+            val canvas = Canvas(drawBitmap)
+            canvas.drawBitmap(bitmap, 0f, 0f, null)
             val paint1 = Paint().apply {
                 color = ContextCompat.getColor(
                     this@MainFragment.requireActivity(),
@@ -238,57 +213,73 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 this.pathEffect =
                     setPathEffect(DashPathEffect(floatArrayOf(5f, 10f, 15f, 20f, 0f), 0f))
             }
-            val canvas = Canvas(drawBitmap)
-            canvas.drawBitmap(bitmap, 0f, 0f, null)
 
+            Glide.with(this@MainFragment).load(drawBitmap).into(binding.imageviewCamera)
             binding.imageviewCamera.invalidate()
-            //pose detection process change bitmap reference so image change
-            val poseProcess = PoseDetectionProcess(
-                poseDetector,
-                canvas,
-                paint1,
-                paint2,
-                bitmap,
-                binding.imageviewCamera
-            )
-            poseProcess.processPose() { processResult ->
-                when (processResult) {
-                    is ProcessResult.ProcessSucces -> {
-                        Glide.with(this).load(drawBitmap).into(binding.imageviewCamera)
-                        binding.imageviewCamera.invalidate()
-                        processResult.degree?.let { degree ->
-                            showResultBottomSheet(degree.toInt())
-                        }
-                    }
-                    is ProcessResult.ProcessError -> {
-                        Toast.makeText(
-                            requireContext(),
-                            (processResult as? ProcessResult.ProcessError)?.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
 
-                    else -> {}
+            binding.determinateBar.visibility = View.VISIBLE
+            this.viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                Log.e("deneme", "3213123")
+                delay(2000)
+                startImageProcessing(poseDetector, canvas, paint1, paint2, bitmap, drawBitmap)
+            }
+        }
+    }
+
+    /**
+     * canvas created with empty bitmap
+     * drawBitmap is saved photo
+     */
+    private fun startImageProcessing(
+        poseDetector: PoseDetector,
+        canvas: Canvas,
+        paint1: Paint,
+        paint2: Paint,
+        bitmap: Bitmap,
+        drawBitmap: Bitmap
+    ) {
+        val poseProcess = PoseDetectionProcess(
+            poseDetector,
+            canvas,
+            paint1,
+            paint2,
+            bitmap,
+        )
+        poseProcess.processPose { processResult ->
+            when (processResult) {
+                is ProcessResult.ProcessSuccess -> {
+
+                    Glide.with(binding.imageviewCamera).load(drawBitmap)
+                        .into(binding.imageviewCamera)
+                    binding.imageviewCamera.invalidate()
+                    processResult.degree?.let { degree ->
+                        showResultBottomSheet(degree.toInt())
+                    }
+                    binding.determinateBar.visibility = View.INVISIBLE
+                }
+                is ProcessResult.ProcessError -> {
+                    Toast.makeText(
+                        requireContext(),
+                        (processResult as? ProcessResult.ProcessError)?.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.determinateBar.visibility = View.INVISIBLE
+                }
+
+                else -> {
+                    binding.determinateBar.visibility = View.INVISIBLE
                 }
             }
         }
     }
 
-    private fun showResultBottomSheet(degree: Int) {
-        val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd")
-        val currentDateAndTime: String = simpleDateFormat.format(Date())
-        if (args.isRecordedPhoto.not()) {
-            val bottomSheet = ResultBottomSheet(degree) {
-                viewModel.insert(
-                    Record(
-
-                        title = "11-11-2021",
-                        imageUri = currentPhotoUri.toString(),
-                        id = null
-                    )
-                )
-            }
-            bottomSheet.show(parentFragmentManager, "BottomSheet")
+    private fun clearScreen() {
+        binding.apply {
+            viewFinder.visibility = View.VISIBLE
+            imageviewCamera.visibility = View.INVISIBLE
+            btnClear.visibility = View.INVISIBLE
+            buttonFromDevice.visibility = View.VISIBLE
+            cameraCaptureButton.visibility = View.VISIBLE
         }
     }
 
@@ -320,6 +311,42 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 Log.e(TAG, "Use case binding failed", exc)
             }
         }, ContextCompat.getMainExecutor(requireActivity()))
+    }
+
+    private fun showResultBottomSheet(degree: Int) {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd",Locale.US)
+        val currentDateAndTime: String = simpleDateFormat.format(Date())
+        if (args.isRecordedPhoto.not()) {
+            val bottomSheet = ResultBottomSheet(degree) {
+                viewModel.insert(
+                    Record(
+                        title = currentDateAndTime,
+                        imageUri = currentPhotoUri.toString(),
+                        id = null
+                    )
+                )
+            }
+            bottomSheet.show(parentFragmentManager, "BottomSheet")
+        }
+    }
+
+    private fun showCameraAlertPopUp() {
+        viewModel.showCameraAlerStatus.observe(this.viewLifecycleOwner) {
+            if (it) {
+                MaterialAlertDialogBuilder(
+                    this.requireContext(),
+                    R.style.ThemeOverlay_MaterialComponents_Dialog_Alert
+                )
+                    .setMessage("You must take picture left side")
+                    .setNegativeButton("Ok") { dialog, which ->
+
+                    }
+                    .setPositiveButton("Never Ask Again") { dialog, which ->
+                        viewModel.changeShowCameraAlertStatus(false)
+                    }
+                    .show()
+            }
+        }
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {

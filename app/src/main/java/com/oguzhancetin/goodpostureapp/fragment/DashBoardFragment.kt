@@ -50,15 +50,11 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
             )
             setViewPager(binding.pager)
         }
-        adapter.registerAdapterDataObserver(indicator.adapterDataObserver);
-
+        adapter.registerAdapterDataObserver(indicator.adapterDataObserver)
         dragPager()
-
-
     }
 
     private fun dragPager() {
-
         this.viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             var page = 1
             while (true) {
@@ -72,11 +68,8 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
                 }
                 page++
             }
-
         }
-
     }
-
 
     private fun goToRecords() {
         findNavController()
@@ -98,7 +91,6 @@ class DashBoardFragment : BaseFragment<FragmentDashBoardBinding>() {
             .navigate(DashBoardFragmentDirections.actionDashBoardFragmentToMainFragment())
     }
 
-    override fun getViewBinding(): FragmentDashBoardBinding {
-        return FragmentDashBoardBinding.inflate(layoutInflater)
-    }
+    override fun getViewBinding(): FragmentDashBoardBinding =
+        FragmentDashBoardBinding.inflate(layoutInflater)
 }

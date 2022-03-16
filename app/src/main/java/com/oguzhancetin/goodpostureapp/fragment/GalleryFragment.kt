@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class GalleryFragment : BaseFragment<FragmentGalleryBinding>() {
 
-    private fun initRc(view: View) {
+    private fun initRc() {
         val galleryAdapter = GalleryRcAdapter(getImagesUri(), ::onImageClick)
         binding.rc.apply {
             addItemDecoration(ItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_tiny)))
@@ -32,9 +32,8 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRc(view)
+        initRc()
     }
-
 
     private fun getImagesUri(): List<Uri> {
         val uriList = arrayListOf<Uri>()
@@ -54,5 +53,4 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>() {
     }
 
     override fun getViewBinding() = inflate(layoutInflater)
-
 }

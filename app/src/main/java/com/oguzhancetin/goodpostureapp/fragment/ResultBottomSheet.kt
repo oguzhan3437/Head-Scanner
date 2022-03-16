@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.oguzhancetin.goodpostureapp.R
 import com.oguzhancetin.goodpostureapp.databinding.FragmentShowResultDialogBinding
 
 class ResultBottomSheet(private val degree: Int, private val onCLickOk: () -> Unit) :
@@ -24,10 +25,14 @@ class ResultBottomSheet(private val degree: Int, private val onCLickOk: () -> Un
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.txtResult.text = "Your neck degree: $degree "
+        val resultString = "Your neck degree: $degree"
+        binding.txtResult.text = resultString
         binding.txtDetailResult.text = getResultTextInDetail(degree)
         binding.textOk.setOnClickListener {
             onCLickOk.invoke()
+            this.dismiss()
+        }
+        binding.textCancel.setOnClickListener {
             this.dismiss()
         }
     }
@@ -39,11 +44,13 @@ class ResultBottomSheet(private val degree: Int, private val onCLickOk: () -> Un
 
     private fun getResultTextInDetail(degree: Int): String {
         return when (degree) {
-            in 0..10 -> "10 kg effect your neck.This is normal weight"
-            in 10..30 -> "When the angle increases to 30 degrees weight of your head effectively increases to 18kg"
-            in 10..45 -> "When the angle increases to 45 degrees weight of your head effectively increases to 22kg"
-            in 45..60 -> "When the angle increases to 60 degrees weight of your head effectively increases to 27kg, which is similar to carrying around an 8-year-old child."
-            else -> {""}
+            in 0..12 -> getString(R.string.exercise_name_1)
+            in 12..30 -> getString(R.string.exercise_name_2)
+            in 10..45 -> getString(R.string.exercise_name_3)
+            in 45..60 -> getString(R.string.exercise_name_4)
+            else -> {
+                ""
+            }
         }
     }
 

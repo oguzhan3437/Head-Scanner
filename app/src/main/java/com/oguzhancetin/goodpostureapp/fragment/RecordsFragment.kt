@@ -24,7 +24,6 @@ class RecordsFragment : BaseFragment<FragmentRecordsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val adapter = RecordsAdapter(listOf<Record>(), requireContext()) { record ->
             goToCamera(record.imageUri?.toUri())
         }
@@ -37,11 +36,13 @@ class RecordsFragment : BaseFragment<FragmentRecordsBinding>() {
 
     private fun goToCamera(uri: Uri?) {
         findNavController()
-            .navigate(RecordsFragmentDirections.actionRecordsFragmentToMainFragment(uri=uri.toString(),isRecordedPhoto = true))
+            .navigate(
+                RecordsFragmentDirections.actionRecordsFragmentToMainFragment(
+                    uri = uri.toString(),
+                    isRecordedPhoto = true
+                )
+            )
     }
 
-
     override fun getViewBinding() = FragmentRecordsBinding.inflate(layoutInflater)
-
-
 }
