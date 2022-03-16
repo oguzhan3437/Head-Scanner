@@ -22,10 +22,12 @@ import androidx.navigation.fragment.navArgs
 import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowMetricsCalculator
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.mlkit.vision.pose.PoseDetector
 import com.oguzhancetin.goodpostureapp.*
 import com.oguzhancetin.goodpostureapp.data.model.Record
 import com.oguzhancetin.goodpostureapp.databinding.FragmentMainBinding
+import com.oguzhancetin.goodpostureapp.viewmodel.CameraViewModel
 import com.oguzhancetin.goodpostureapp.viewmodel.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -40,7 +42,7 @@ import javax.inject.Inject
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private val args: MainFragmentArgs by navArgs()
-    private val viewModel: RecordViewModel by viewModels()
+    private val viewModel: CameraViewModel by viewModels()
 
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
@@ -57,7 +59,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     companion object {
         private const val TAG = "CameraXBasic"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-        private const val REQUEST_CODE_PERMISSIONS = 10
+        private const val REQUEST_CODE_PERMISSIONS = 12
         private val REQUIRED_PERMISSIONS =
             arrayOf(
                 Manifest.permission.CAMERA,
@@ -69,8 +71,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+        checkPermissionsOk()
         val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this);
@@ -84,19 +85,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     uri?.let {
                         val uri = Uri.parse(it)
                         setImageView(uri)
-
                     }
-
                 }
             }
-
         }
-
-
-
-
-
-
         binding.imageviewCamera.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener) //1397
         outputDirectory = getOutputDirectory(requireActivity().application)
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -106,8 +98,29 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         binding.buttonFromDevice.setOnClickListener { goToGallery() }
 
 
-        checkPermissionsOk()
 
+        showCameraAlert()
+
+
+    }
+
+    private fun showCameraAlert() {
+        viewModel.showCameraAlerStatus.observe(this.viewLifecycleOwner) {
+            if (it) {
+                MaterialAlertDialogBuilder(
+                    this.requireContext(),
+                    R.style.ThemeOverlay_MaterialComponents_Dialog_Alert
+                )
+                    .setMessage("You must take picture left side")
+                    .setNegativeButton("Ok") { dialog, which ->
+
+                    }
+                    .setPositiveButton("Never Ask Again") { dialog, which ->
+                        viewModel.changeShowCameraAlertStatus(false)
+                    }
+                    .show()
+            }
+        }
     }
 
     private fun goToGallery() {
@@ -132,11 +145,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             viewFinder.visibility = View.VISIBLE
             imageviewCamera.visibility = View.INVISIBLE
             btnClear.visibility = View.INVISIBLE
+            buttonFromDevice.visibility = View.VISIBLE
+            cameraCaptureButton.visibility = View.VISIBLE
         }
-
-
     }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -177,6 +189,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     val msg = "Photo capture succeeded: $savedUri"
                     setImageView(savedUri)
                     binding.btnClear.visibility = View.VISIBLE
+                    binding.buttonFromDevice.visibility = View.INVISIBLE
+                    binding.cameraCaptureButton.visibility = View.INVISIBLE
                     //Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
                     Log.d(TAG, msg)
                 }
@@ -209,13 +223,20 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
 
             val paint1 = Paint().apply {
-                color = ContextCompat.getColor(this@MainFragment.requireActivity(),R.color.scanner_color_1)
+                color = ContextCompat.getColor(
+                    this@MainFragment.requireActivity(),
+                    R.color.scanner_color_1
+                )
                 this.strokeWidth = 2f
             }
             val paint2 = Paint().apply {
-                color = ContextCompat.getColor(this@MainFragment.requireActivity(),R.color.scanner_color_2)
+                color = ContextCompat.getColor(
+                    this@MainFragment.requireActivity(),
+                    R.color.scanner_color_2
+                )
                 this.strokeWidth = 2f
-                this.pathEffect = setPathEffect(DashPathEffect(floatArrayOf(5f, 10f, 15f, 20f, 0f),0f))
+                this.pathEffect =
+                    setPathEffect(DashPathEffect(floatArrayOf(5f, 10f, 15f, 20f, 0f), 0f))
             }
             val canvas = Canvas(drawBitmap)
             canvas.drawBitmap(bitmap, 0f, 0f, null)
@@ -235,12 +256,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     is ProcessResult.ProcessSucces -> {
                         Glide.with(this).load(drawBitmap).into(binding.imageviewCamera)
                         binding.imageviewCamera.invalidate()
-                        //TODO: burası düzeltilmeli
-                       /* processResult.degree?.let { degree->
+                        processResult.degree?.let { degree ->
                             showResultBottomSheet(degree.toInt())
-                        }*/
-
-
+                        }
                     }
                     is ProcessResult.ProcessError -> {
                         Toast.makeText(
@@ -252,27 +270,25 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
                     else -> {}
                 }
-                showResultBottomSheet(30)
             }
-
-
         }
-
-
     }
 
-    private fun showResultBottomSheet(degree:Int) {
+    private fun showResultBottomSheet(degree: Int) {
+        val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd")
+        val currentDateAndTime: String = simpleDateFormat.format(Date())
         if (args.isRecordedPhoto.not()) {
-            val bottomSheet = ResultBottomSheet(degree){
+            val bottomSheet = ResultBottomSheet(degree) {
                 viewModel.insert(
                     Record(
+
                         title = "11-11-2021",
                         imageUri = currentPhotoUri.toString(),
                         id = null
                     )
                 )
             }
-            bottomSheet.show(parentFragmentManager,"BottomSheet")
+            bottomSheet.show(parentFragmentManager, "BottomSheet")
         }
     }
 

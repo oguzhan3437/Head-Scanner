@@ -20,7 +20,6 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             repository.writePref(state)
             context
-
         }
     }
 }

@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.annotation.Px
 import androidx.recyclerview.widget.RecyclerView
+import com.oguzhancetin.goodpostureapp.repository.PreferenceRepository
 
 class ItemDecoration(
     @Px

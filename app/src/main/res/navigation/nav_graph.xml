@@ -25,8 +25,7 @@
         <action
             android:id="@+id/action_mainFragment_to_galleryFragment3"
             app:destination="@id/galleryFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/from_right_to_left" />
     </fragment>
     <fragment
         android:id="@+id/galleryFragment"
@@ -36,8 +35,8 @@
         <action
             android:id="@+id/action_galleryFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
+            app:enterAnim="@anim/from_left_to_right"
+            app:exitAnim="@anim/from_right_to_left"
             app:popUpTo="@id/dashBoardFragment"
             app:popUpToInclusive="false" />
 

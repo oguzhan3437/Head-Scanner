@@ -58,7 +58,7 @@ fun getDataColumn(
 fun getOutputDirectory(application: Application): File {
     application.apply {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply {
+            File(it, resources.getString(R.string.app_name1).trim()).apply {
                 mkdir()
             }
         }
