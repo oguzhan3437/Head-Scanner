@@ -30,7 +30,7 @@ application based on modern Android application tech-stacks and MVVM architectur
   - Repository pattern
   - Hilt - dependency injection.
 - [Glide](https://github.com/bumptech/glide) - loading images.
-- [Material-Components](https://github.com/material-components/material-components-android) - Material design components like ripple animation, cardView.
+- [Ml kit](https://developers.google.com/ml-kit/vision/pose-detection) - google pose detection ml kit.
 
 ## Architecture
 Head Scanner is based on MVVM architecture and a repository pattern.
