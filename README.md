@@ -38,7 +38,7 @@ Head Scanner is based on MVVM architecture and a repository pattern.
 
 # License
 ```xml
-Designed and developed by 2020 oguzhan3437 (Oğuzhan Çetin)
+Designed and developed by 2022 oguzhan3437 (Oğuzhan Çetin)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
