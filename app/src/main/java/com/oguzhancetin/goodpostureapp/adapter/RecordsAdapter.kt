@@ -10,7 +10,11 @@ import androidx.cardview.widget.CardView
 import com.oguzhancetin.goodpostureapp.R
 import com.oguzhancetin.goodpostureapp.data.model.Record
 
-class RecordsAdapter(private var records:List<Record>, private val context: Context, private val onClick:(Record)->Unit) :
+class RecordsAdapter(
+    private var records: List<Record>,
+    private val context: Context,
+    private val onClick: (Record) -> Unit
+) :
     BaseAdapter() {
     override fun getCount(): Int = records.size
 
@@ -28,7 +32,8 @@ class RecordsAdapter(private var records:List<Record>, private val context: Cont
 
         return rowView
     }
-    fun loadData(newRecords:List<Record>){
+
+    fun loadData(newRecords: List<Record>) {
         records = newRecords
         notifyDataSetChanged()
     }

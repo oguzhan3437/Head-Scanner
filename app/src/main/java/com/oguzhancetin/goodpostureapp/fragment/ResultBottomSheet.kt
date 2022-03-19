@@ -26,10 +26,9 @@ class ResultBottomSheet(private val degree: Int, private val onCLickOk: () -> Un
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.ratingDegree.isClickable = false
-        binding.ratingDegree.rating = getResultStar(degree)
-
         val resultString = "Your neck degree: $degree"
+
+        binding.ratingDegree.rating = getResultStar(degree)
         binding.txtResult.text = resultString
         binding.txtDetailResult.text = getResultTextInDetail(degree)
         binding.textOk.setOnClickListener {
