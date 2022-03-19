@@ -26,7 +26,7 @@ application based on modern Android application tech-stacks and MVVM architectur
   - ViewModel - UI related data holder, lifecycle aware.
   - Room Persistence - construct a database using the abstract layer.
 - Architecture
-  - MVVM Architecture (View - DataBinding - ViewModel - Model)
+  - MVVM Architecture (View - ViewBinding - ViewModel - Model)
   - Repository pattern
   - Hilt - dependency injection.
 - [Glide](https://github.com/bumptech/glide) - loading images.
