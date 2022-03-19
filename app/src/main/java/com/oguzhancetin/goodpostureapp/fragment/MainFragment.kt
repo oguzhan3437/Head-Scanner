@@ -175,7 +175,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private fun setImageView(uri: Uri?) {
         if (binding.viewFinder.visibility == View.VISIBLE) {
-            binding.viewFinder.visibility = View.GONE
+            binding.viewFinder.visibility = View.INVISIBLE
             binding.imageviewCamera.visibility = View.VISIBLE
 
             binding.btnClear.visibility = View.VISIBLE
@@ -280,6 +280,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             btnClear.visibility = View.INVISIBLE
             buttonFromDevice.visibility = View.VISIBLE
             cameraCaptureButton.visibility = View.VISIBLE
+
+
+
         }
     }
 

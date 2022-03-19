@@ -7,10 +7,15 @@
     <string name="records">records</string>
     <string name="exercises">exercises</string>
     <string name="gallery">gallery</string>
-    <string name="story_text1">Most of us hunch over our smartphone for at least two hours a day. This can effectively increase the weight of your head by up to 27kg</string>
+    <string name="story_text1">Most of us use phone for at least three hours a day. This can effectively increase the weight of your head. As a result you can have a forward have posture issue</string>
     <string name="story_text2">A 60 degree angle results in the head weighing the equivalent of 27kg, which is similar to carrying around an 8-year-old child</string>
-    <string name="story_text3">Take a photo of you standing sideways to see your neck degree</string>
+    <string name="story_text3">Take a photo of you standing sideways to see your Forward Head degree</string>
     <string name="get_started">Get Started</string>
+
+    <string name="result_1">10 kg effect your neck.This is normal weight</string>
+    <string name="result_2">When the angle increases to 30 degrees weight of your head effectively increases to 18kg</string>
+    <string name="result_3">When the angle increases to 45 degrees weight of your head effectively increases to 22kg</string>
+    <string name="result_4">When the angle increases to 60 degrees weight of your head effectively increases to 27kg, which is similar to carrying around an 8-year-old child</string>
 
     <string name="exercise_name_1">Chin Tucks</string>
     <string name="exercise_name_2">Neck Flexion</string>
@@ -31,9 +36,6 @@
     <string name="exercise_explanation_5">&#8226;Start either in a standing or seated position\n&#8226;Place one of your hands on the opposite side of your head\n&#8226;Now bring the head down towards your shoulder\n&#8226;Use the hand overhead to press your neck down – to get a deeper stretch (Not too hard)\n&#8226;Hold for 20–30 seconds and do 2–3 sets</string>
     <string name="clear">clear</string>
 
-    <style name="result_1">10 kg effect your neck.This is normal weight</style>
-    <style name="result_2">When the angle increases to 30 degrees weight of your head effectively increases to 18kg</style>
-    <style name="result_3">When the angle increases to 45 degrees weight of your head effectively increases to 22kg</style>
-    <style name="result_4">When the angle increases to 60 degrees weight of your head effectively increases to 27kg, which is similar to carrying around an 8-year-old child</style>
+
 
 </resources>

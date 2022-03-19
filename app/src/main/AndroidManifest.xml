@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:parentActivityName=".MainActivity" android:name=".fragment.ScreenSlidePagerActivity">
+            android:parentActivityName=".MainActivity" android:name=".ScreenSlidePagerActivity">
 
         </activity>
     </application>

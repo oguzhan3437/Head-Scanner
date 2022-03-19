@@ -1,4 +1,4 @@
-package com.oguzhancetin.goodpostureapp.fragment
+package com.oguzhancetin.goodpostureapp
 
 import android.content.Intent
 import android.opengl.Visibility
@@ -42,7 +42,7 @@ class ScreenSlidePagerActivity : AppCompatActivity() {
         binding.dotsIndicator.setViewPager2(binding.viewPager2)
         binding.buttonGotoMainPage.setOnClickListener {
             Intent(this, MainActivity::class.java).also {
-                //it.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                it.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(it)
                 finish()
             }

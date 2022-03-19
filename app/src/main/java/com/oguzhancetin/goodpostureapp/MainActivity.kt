@@ -10,7 +10,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 
 import com.oguzhancetin.goodpostureapp.databinding.ActivityMainBinding
-import com.oguzhancetin.goodpostureapp.fragment.ScreenSlidePagerActivity
 import com.oguzhancetin.goodpostureapp.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,8 +43,8 @@ class MainActivity : AppCompatActivity() {
         model.userIntoInfo.observe(this) {
             when (it) {
                 false -> {
-                    Intent(this, ScreenSlidePagerActivity::class.java).also {
-                        startActivity(it)
+                    Intent(this, ScreenSlidePagerActivity::class.java).also { intent ->
+                        startActivity(intent)
                         finish()
                     }
                     model.writeUserIntroInfo(true)

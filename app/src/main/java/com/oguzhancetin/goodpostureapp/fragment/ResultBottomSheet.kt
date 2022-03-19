@@ -25,6 +25,10 @@ class ResultBottomSheet(private val degree: Int, private val onCLickOk: () -> Un
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.ratingDegree.isClickable = false
+        binding.ratingDegree.rating = getResultStar(degree)
+
         val resultString = "Your neck degree: $degree"
         binding.txtResult.text = resultString
         binding.txtDetailResult.text = getResultTextInDetail(degree)
@@ -44,14 +48,26 @@ class ResultBottomSheet(private val degree: Int, private val onCLickOk: () -> Un
 
     private fun getResultTextInDetail(degree: Int): String {
         return when (degree) {
-            in 0..12 -> getString(R.string.exercise_name_1)
-            in 12..30 -> getString(R.string.exercise_name_2)
-            in 10..45 -> getString(R.string.exercise_name_3)
-            in 45..60 -> getString(R.string.exercise_name_4)
+            in 0..12 -> getString(R.string.result_1)
+            in 12..30 -> getString(R.string.result_2)
+            in 10..45 -> getString(R.string.result_3)
+            in 45..60 -> getString(R.string.result_4)
             else -> {
                 ""
             }
         }
     }
+
+    private fun getResultStar(degree: Int): Float {
+        return when (degree) {
+            in 0..10 -> 5f
+            in 10..12 -> 4.5f
+            in 12..30 -> 4f
+            in 10..45 -> 3f
+            in 45..60 -> 2f
+            else -> 1f
+        }
+    }
+
 
 }

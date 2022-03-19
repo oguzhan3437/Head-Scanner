@@ -9,19 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="30dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_chat_bro" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textAlignment="center"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="5dp"
         android:text="@string/story_text1"
-        android:textColor="@color/background">
+        android:textAlignment="center"
+        android:textColor="@color/background"
+        android:textSize="16sp">
 
     </TextView>
 

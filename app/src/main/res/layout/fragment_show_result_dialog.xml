@@ -12,6 +12,14 @@
         tools:text="Your neck degree: 30 "
         android:layout_marginTop="15dp"
         android:textSize="24sp" />
+    <RatingBar
+        android:id="@+id/rating_degree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:numStars="5"
+
+        />
 
     <TextView
         android:id="@+id/txt_detail_result"
