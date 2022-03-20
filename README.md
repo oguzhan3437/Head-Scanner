@@ -15,7 +15,7 @@ application based on modern Android application tech-stacks and MVVM architectur
 
 
 
-<img src="https://github.com/oguzhan3437/temp/blob/main/image1.jpeg" width="100" height="200/>
+<img src="https://github.com/oguzhan3437/temp/blob/main/image1.jpeg" width="32½"/>
 
 ## Tech stack & Open-source libraries
 - Minimum SDK level 21
