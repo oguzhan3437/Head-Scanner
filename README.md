@@ -11,7 +11,7 @@ application based on modern Android application tech-stacks and MVVM architectur
 </p>
 </br>
 
-<img src="https://github.com/oguzhan3437/temp/blob/main/image1.jpeg" width="200" height="380"/>   <img src="https://github.com/oguzhan3437/temp/blob/main/image3.jpeg"  width="200" height="380"/> <img src="https://github.com/oguzhan3437/temp/blob/main/image4.jpeg"  width="200" height="380"/> <img src="https://github.com/oguzhan3437/temp/blob/main/image5.jpeg"  width="200" height="380"/> 
+<img src="https://github.com/oguzhan3437/temp/blob/main/image1.jpeg" width="200" height="380"/>   <img src="https://github.com/oguzhan3437/temp/blob/main/image3a.jpeg"  width="200" height="380"/> <img src="https://github.com/oguzhan3437/temp/blob/main/image4.jpeg"  width="200" height="380"/> <img src="https://github.com/oguzhan3437/temp/blob/main/image5.jpeg"  width="200" height="380"/> 
 
 
 
