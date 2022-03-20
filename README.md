@@ -11,10 +11,8 @@ application based on modern Android application tech-stacks and MVVM architectur
 </p>
 </br>
 
-<p align="center">
-![alt text](https://github.com/oguzhan3437/Head-Scanner/drawble/master/o1.png?raw=true)
-<img src="/previews/screenshot.png"/>
-</p>
+
+<img src="https://github.com/oguzhan3437/temp/blob/main/image1.jpeg"/>
 
 
 <img src="/previews/preview.gif" align="right" width="32%"/>
