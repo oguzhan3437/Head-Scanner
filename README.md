@@ -11,8 +11,7 @@ application based on modern Android application tech-stacks and MVVM architectur
 </p>
 </br>
 
-![alt-text-1](https://github.com/oguzhan3437/temp/blob/main/image1.jpeg "title-1") ![alt-text-2](https://github.com/oguzhan3437/temp/blob/main/image2.jpeg "title-2")
-
+<img src="https://github.com/oguzhan3437/temp/blob/main/image1.jpeg" width="425"/> <img src="https://github.com/oguzhan3437/temp/blob/main/image2.jpeg" width="425"/> 
 
 
 
