@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">  
-Posture Scan app find your forwardhead level on your body via google ml kit . This
+Head Scanner app find your forwardhead level on your body via google ml kit . This
 application based on modern Android application tech-stacks and MVVM architecture.<br>
 </p>
 </br>
