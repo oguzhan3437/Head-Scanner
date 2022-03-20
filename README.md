@@ -12,7 +12,7 @@ application based on modern Android application tech-stacks and MVVM architectur
 </br>
 
 
-<img src="https://github.com/oguzhan3437/temp/blob/main/image1.jpeg"/>
+<img src="https://github.com/oguzhan3437/temp/blob/main/image1.jpeg" width="100" height="200/>
 
 
 <img src="/previews/preview.gif" align="right" width="32%"/>
