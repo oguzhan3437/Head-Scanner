@@ -10,21 +10,8 @@ Head Scanner app find your forwardhead level on your body via google ml kit . Th
 application based on modern Android application tech-stacks and MVVM architecture.<br>
 </p>
 </br>
-<div class="row">
-  <div class="column">
-      <img src="https://github.com/oguzhan3437/temp/blob/main/image1.jpeg" width="32%"/>
-  </div>
-  <div class="column">
-   <img src="https://github.com/oguzhan3437/temp/blob/main/image2.jpeg" width="32%"/>
-  </div>
-  <div class="column">
-    <img src="https://github.com/oguzhan3437/temp/blob/main/image4.jpeg" width="32%"/>
-  </div>
-    <div class="column">
-    <img src="https://github.com/oguzhan3437/temp/blob/main/image5.jpeg" width="32%"/>
-  </div>
-</div>
 
+![alt-text-1](https://github.com/oguzhan3437/temp/blob/main/image1.jpeg "title-1") ![alt-text-2](https://github.com/oguzhan3437/temp/blob/main/image2.jpeg "title-2")
 
 
 
