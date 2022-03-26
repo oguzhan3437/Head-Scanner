@@ -63,7 +63,6 @@ class PoseDetectionProcess(
                 )
                 drawCircle(leftEarLandMarks.first, leftEarLandMarks.second, 25f, paint1)
                 drawCircle(leftShoulderLandMarks.first, leftShoulderLandMarks.second, 15f, paint1)
-                drawText("angle : $angle", 200f, 50f, paint1)
             }
             return angle.toInt()
         } catch (e: Exception) {

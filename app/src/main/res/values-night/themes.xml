@@ -18,9 +18,10 @@
 
 
     </style>
-    <style name="LaunchTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="LaunchTheme" parent="Theme.GoodPostureApp">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:statusBarColor">@color/splash_black</item>
+
 
 
     </style>
@@ -44,6 +45,14 @@
         <item name="strokeColor">@color/white</item>
         <item name="cardElevation">0dp</item>
         <item name="strokeWidth">1dp</item>
+
+    </style>
+    <style name="ShapeAppearance.PostureApp.viewPager"
+        parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeWidth">0dp</item>
 
     </style>
     <style name="ShapeAppearance.PostureApp.Shape1"

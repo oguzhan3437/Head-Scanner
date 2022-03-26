@@ -17,7 +17,6 @@ import com.oguzhancetin.goodpostureapp.databinding.FragmentGalleryBinding.*
 import com.oguzhancetin.goodpostureapp.adapter.GalleryRcAdapter
 import com.oguzhancetin.goodpostureapp.getOutputDirectory
 import com.oguzhancetin.goodpostureapp.util.ItemDecoration
-import kotlinx.android.synthetic.main.activity_main.*
 
 class GalleryFragment : BaseFragment<FragmentGalleryBinding>() {
 

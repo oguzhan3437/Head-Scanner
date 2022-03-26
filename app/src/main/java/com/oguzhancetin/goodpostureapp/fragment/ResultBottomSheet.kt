@@ -62,7 +62,7 @@ class ResultBottomSheet(private val degree: Int, private val onCLickOk: () -> Un
             in 0..10 -> 5f
             in 10..12 -> 4.5f
             in 12..30 -> 4f
-            in 10..45 -> 3f
+            in 30..45 -> 3f
             in 45..60 -> 2f
             else -> 1f
         }

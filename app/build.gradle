@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
     id 'dagger.hilt.android.plugin'
@@ -13,9 +12,9 @@ android {
     defaultConfig {
         applicationId "com.oguzhancetin.goodpostureapp"
         minSdk 21
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        targetSdk 32
+        versionCode 3
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -28,10 +27,10 @@ android {
             androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
+    aaptOptions { cruncherEnabled = false }
 
     buildTypes {
         release {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         
@@ -51,26 +50,26 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 
-    implementation 'com.google.mlkit:pose-detection:18.0.0-beta1'
+    implementation 'com.google.mlkit:pose-detection:18.0.0-beta2'
     //If you want to use the accurate sdk
-    implementation 'com.google.mlkit:pose-detection-accurate:18.0.0-beta1'
+    implementation 'com.google.mlkit:pose-detection-accurate:18.0.0-beta2'
 
-    def camerax_version = "1.0.1"
+    def camerax_version = "1.0.2"
     //CameraX core library using camera2 implementation
     implementation "androidx.camera:camera-camera2:$camerax_version"
     //CameraX Lifecycle Library
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     //CameraX View class
-    implementation "androidx.camera:camera-view:1.0.0-alpha27"
+    implementation "androidx.camera:camera-view:1.1.0-beta02"
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -96,7 +95,6 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
-
     //Room
     def roomVersion = "2.4.2"
     implementation("androidx.room:room-runtime:$roomVersion")
