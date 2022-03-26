@@ -6,17 +6,15 @@
 </p>
 
 <p align="center">  
-Posture Scan app find your forwardhead level on your body via google ml kit . This
+Head Scanner app find your forwardhead level on your body via google ml kit . This
 application based on modern Android application tech-stacks and MVVM architecture.<br>
 </p>
 </br>
 
-<p align="center">
-<img src="/previews/screenshot.png"/>
-</p>
+<img src="https://github.com/oguzhan3437/temp/blob/main/image1.jpeg" width="200" height="380"/>   <img src="https://github.com/oguzhan3437/temp/blob/main/image3a.jpeg"  width="200" height="380"/> <img src="https://github.com/oguzhan3437/temp/blob/main/image4.jpeg"  width="200" height="380"/> <img src="https://github.com/oguzhan3437/temp/blob/main/image5.jpeg"  width="200" height="380"/> 
 
 
-<img src="/previews/preview.gif" align="right" width="32%"/>
+
 
 ## Tech stack & Open-source libraries
 - Minimum SDK level 21
@@ -29,6 +27,9 @@ application based on modern Android application tech-stacks and MVVM architectur
   - MVVM Architecture (View - ViewBinding - ViewModel - Model)
   - Repository pattern
   - Hilt - dependency injection.
+  - Navigation
+  - Data Store 
+-  -CameraX
 - [Glide](https://github.com/bumptech/glide) - loading images.
 - [Ml kit](https://developers.google.com/ml-kit/vision/pose-detection) - google pose detection ml kit.
 
