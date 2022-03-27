@@ -41,7 +41,8 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
-
+//TODO:Change FragmentName
+//This is CameraFragment
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
@@ -290,7 +291,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         val metrics = WindowMetricsCalculator.getOrCreate()
             .computeCurrentWindowMetrics(this.requireActivity()).bounds
         val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
-        //pose detection innitiliazed
+        //pose detection initialized
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
             //preview
