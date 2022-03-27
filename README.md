@@ -23,13 +23,13 @@ application based on modern Android application tech-stacks and MVVM architectur
   - Lifecycle - dispose of observing data when lifecycle state changes.
   - ViewModel - UI related data holder, lifecycle aware.
   - Room Persistence - construct a database using the abstract layer.
+  - -CameraX
 - Architecture
   - MVVM Architecture (View - ViewBinding - ViewModel - Model)
   - Repository pattern
   - Hilt - dependency injection.
   - Navigation
   - Data Store 
--  -CameraX
 - [Glide](https://github.com/bumptech/glide) - loading images.
 - [Ml kit](https://developers.google.com/ml-kit/vision/pose-detection) - google pose detection ml kit.
 
