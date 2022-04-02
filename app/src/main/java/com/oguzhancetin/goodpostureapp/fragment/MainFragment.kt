@@ -6,6 +6,8 @@ import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.util.Size
+import android.view.Surface
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
@@ -13,7 +15,9 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
+import androidx.camera.core.impl.ImageCaptureConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -283,7 +287,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             cameraCaptureButton.visibility = View.VISIBLE
 
 
-
         }
     }
 
@@ -291,20 +294,29 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         val metrics = WindowMetricsCalculator.getOrCreate()
             .computeCurrentWindowMetrics(this.requireActivity()).bounds
         val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
+
+
+
+
         //pose detection initialized
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
             //preview
             val preview = Preview.Builder()
                 .setTargetAspectRatio(screenAspectRatio)
+                .setTargetRotation(Surface.ROTATION_0)
                 .build()
                 .also {
                     it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
                 }
 
+
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+
             imageCapture = ImageCapture.Builder()
                 .setTargetAspectRatio(screenAspectRatio)
+                .setTargetRotation(Surface.ROTATION_0)
                 .build()
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -318,7 +330,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     private fun showResultBottomSheet(degree: Int) {
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd",Locale.US)
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val currentDateAndTime: String = simpleDateFormat.format(Date())
         if (args.isRecordedPhoto.not()) {
             val bottomSheet = ResultBottomSheet(degree) {

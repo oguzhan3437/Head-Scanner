@@ -68,4 +68,5 @@ fun aspectRatio(width: Int, height: Int): Int {
         return AspectRatio.RATIO_4_3
     }
     return AspectRatio.RATIO_16_9
+   // return AspectRatio.RATIO_4_3
 }
