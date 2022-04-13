@@ -1,12 +1,13 @@
 package com.oguzhancetin.goodpostureapp.fragment
 
 import android.Manifest
+import android.R.attr
 import android.content.pm.PackageManager
 import android.graphics.*
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.util.Size
 import android.view.Surface
 import android.view.View
 import android.view.ViewTreeObserver
@@ -15,18 +16,16 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
-import androidx.camera.core.impl.ImageCaptureConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.window.layout.WindowMetricsCalculator
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.mlkit.vision.pose.PoseDetector
 import com.oguzhancetin.goodpostureapp.*
@@ -37,13 +36,16 @@ import com.oguzhancetin.goodpostureapp.util.ProcessResult
 import com.oguzhancetin.goodpostureapp.util.getResizedBitmap
 import com.oguzhancetin.goodpostureapp.viewmodel.CameraViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
+
 
 //TODO:Change FragmentName
 //This is CameraFragment
@@ -193,41 +195,45 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 height,
                 Bitmap.Config.ARGB_8888
             )
-            //resize and covert saved photo
-            val bitmap = getResizedBitmap(
-                BitmapFactory.decodeFile(uri?.encodedPath),
-                width,
-                height
-            )
-            //created canvas empty bitmap(fixed size) and put saved photo bitmap onto empty
-            val canvas = Canvas(drawBitmap)
-            canvas.drawBitmap(bitmap, 0f, 0f, null)
-            val paint1 = Paint().apply {
-                color = ContextCompat.getColor(
-                    this@MainFragment.requireActivity(),
-                    R.color.scanner_color_1
+
+            uri?.let {
+                //resize and covert saved photo
+                val bitmap = getResizedBitmap(
+                    rotateImageWithUri(uri),
+                    width,
+                    height
                 )
-                this.strokeWidth = 2f
-            }
-            val paint2 = Paint().apply {
-                color = ContextCompat.getColor(
-                    this@MainFragment.requireActivity(),
-                    R.color.scanner_color_2
-                )
-                this.strokeWidth = 2f
-                this.pathEffect =
-                    setPathEffect(DashPathEffect(floatArrayOf(5f, 10f, 15f, 20f, 0f), 0f))
+                //created canvas empty bitmap(fixed size) and put saved photo bitmap onto empty
+                val canvas = Canvas(drawBitmap)
+                canvas.drawBitmap(bitmap, 0f, 0f, null)
+                val paint1 = Paint().apply {
+                    color = ContextCompat.getColor(
+                        this@MainFragment.requireActivity(),
+                        R.color.scanner_color_1
+                    )
+                    this.strokeWidth = 2f
+                }
+                val paint2 = Paint().apply {
+                    color = ContextCompat.getColor(
+                        this@MainFragment.requireActivity(),
+                        R.color.scanner_color_2
+                    )
+                    this.strokeWidth = 2f
+                    this.pathEffect =
+                        setPathEffect(DashPathEffect(floatArrayOf(5f, 10f, 15f, 20f, 0f), 0f))
+                }
+
+                Glide.with(this@MainFragment).load(drawBitmap).into(binding.imageviewCamera)
+                binding.imageviewCamera.invalidate()
+
+                binding.determinateBar.visibility = View.VISIBLE
+                this.viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    Log.e("deneme", "3213123")
+                    delay(2000)
+                    startImageProcessing(poseDetector, canvas, paint1, paint2, bitmap, drawBitmap)
+                }
             }
 
-            Glide.with(this@MainFragment).load(drawBitmap).into(binding.imageviewCamera)
-            binding.imageviewCamera.invalidate()
-
-            binding.determinateBar.visibility = View.VISIBLE
-            this.viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                Log.e("deneme", "3213123")
-                delay(2000)
-                startImageProcessing(poseDetector, canvas, paint1, paint2, bitmap, drawBitmap)
-            }
         }
     }
 
@@ -296,8 +302,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
 
 
-
-
         //pose detection initialized
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
@@ -357,7 +361,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     .setNegativeButton("Ok") { dialog, which ->
 
                     }
-                    .setPositiveButton("Never Ask Again") { dialog, which ->
+                    .setPositiveButton("Never show again") { dialog, which ->
                         viewModel.changeShowCameraAlertStatus(false)
                     }
                     .show()
