@@ -16,7 +16,7 @@ application based on modern Android application tech-stacks and MVVM architectur
 
 # Download
 
-<a href='https://play.google.com/store/apps/details?id=com.oguzhancetin.goodpostureapp' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=0' border='0'  /></a>
+<a href='https://play.google.com/store/apps/details?id=com.oguzhancetin.goodpostureapp' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://developer.android.com/images/brand/en_app_rgb_wo_45.png' border='0'  /></a>
 
 ## Tech stack & Open-source libraries
 - Minimum SDK level 21
