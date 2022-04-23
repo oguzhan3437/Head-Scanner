@@ -1,4 +1,4 @@
-<h1 align="center">Head Scanner</h1>
+<h1 align="center">Forward Head Correction</h1>
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">  
-Head Scanner app find your forwardhead level on your body via google ml kit . This
+Forward Head Correction app find your forward head level on your body via google ml kit . This
 application based on modern Android application tech-stacks and MVVM architecture.<br>
 </p>
 </br>

@@ -53,7 +53,7 @@
     <fragment
         android:id="@+id/dashBoardFragment"
         android:name="com.oguzhancetin.goodpostureapp.fragment.DashBoardFragment"
-        android:label="Head Scanner"
+        android:label="Forward Head Correction"
         tools:layout="@layout/fragment_dash_board" >
         <action
             android:id="@+id/action_dashBoardFragment_to_mainFragment"

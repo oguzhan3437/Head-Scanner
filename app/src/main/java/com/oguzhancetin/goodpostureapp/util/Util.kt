@@ -21,7 +21,7 @@ private const val RATIO_16_9_VALUE = 16.0 / 9.0
 fun getOutputDirectory(application: Application): File {
     application.apply {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name1).trim()).apply {
+            File(it, "ForwardHeadCorrection").apply {
                 mkdir()
             }
         }

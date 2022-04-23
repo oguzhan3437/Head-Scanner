@@ -12,6 +12,7 @@ import android.view.Surface
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -51,6 +52,22 @@ import javax.inject.Inject
 //This is CameraFragment
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>() {
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) {
+        var permissionsState = true
+        it.forEach{permission -> if(permission.value == false) permissionsState = false}
+        if(permissionsState){
+            startCamera()
+        }else{
+            Toast.makeText(
+                requireActivity(),
+                "Permissions not granted by the user.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     private val args: MainFragmentArgs by navArgs()
     private val viewModel: CameraViewModel by viewModels()
@@ -123,31 +140,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         if (allPermissionsGranted()) {
             startCamera()
         } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
-            )
+            requestPermissionLauncher.launch(REQUIRED_PERMISSIONS)
+
         }
     }
 
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                startCamera()
-            } else {
-                Toast.makeText(
-                    requireActivity(),
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
+
 
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
